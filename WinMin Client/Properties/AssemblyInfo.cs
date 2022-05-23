@@ -7,11 +7,11 @@ using System.Windows;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("setup")]
-[assembly: AssemblyDescription("WinMins Setup")]
+[assembly: AssemblyTitle("WinMin Client")]
+[assembly: AssemblyDescription("WinMin Client is used to control the WinMin Service")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("AGG Productions")]
-[assembly: AssemblyProduct("setup")]
+[assembly: AssemblyProduct("WinMin Client")]
 [assembly: AssemblyCopyright("AGG Productions Copyright ©  2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

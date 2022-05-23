@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sethc", "sethc\sethc.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinMin", "WinMin\WinMin.csproj", "{52C32ABB-95D9-4D84-B628-5E5ABAD7EA8E}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "WinMin Setup", "WinMin Setup\WinMin Setup.vdproj", "{49BC2375-1CC9-44A9-B67F-EBEAC1226376}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinMin Client", "WinMin Client\WinMin Client.csproj", "{6321B860-E36C-489A-AF6F-F6FBC077BF0A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,12 @@ Global
 		{52C32ABB-95D9-4D84-B628-5E5ABAD7EA8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52C32ABB-95D9-4D84-B628-5E5ABAD7EA8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52C32ABB-95D9-4D84-B628-5E5ABAD7EA8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49BC2375-1CC9-44A9-B67F-EBEAC1226376}.Debug|Any CPU.ActiveCfg = Debug
+		{49BC2375-1CC9-44A9-B67F-EBEAC1226376}.Release|Any CPU.ActiveCfg = Release
+		{6321B860-E36C-489A-AF6F-F6FBC077BF0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6321B860-E36C-489A-AF6F-F6FBC077BF0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6321B860-E36C-489A-AF6F-F6FBC077BF0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6321B860-E36C-489A-AF6F-F6FBC077BF0A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
