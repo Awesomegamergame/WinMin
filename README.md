@@ -4,7 +4,7 @@ This is a work in progress multistage app that will grant admin very easily just
 
 Road Map
 1. Modify windows pe to run the program
-2. Run the program on the lock screen in windows
+2. ~~Run the program on the lock screen in windows~~
 3. Make a windows service to keep the password the same
 4. Make a wpf app to handle thethe installing of the windows service
 
