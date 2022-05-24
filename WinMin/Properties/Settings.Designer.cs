@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WinMin_Client.Properties
+namespace WinMin.Properties
 {
 
 

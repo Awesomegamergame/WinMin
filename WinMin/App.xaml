@@ -1,7 +1,7 @@
-﻿<Application x:Class="WinMin_Client.App"
+﻿<Application x:Class="WinMin.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:WinMin_Client"
+             xmlns:local="clr-namespace:WinMin"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
          
