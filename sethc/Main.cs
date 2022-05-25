@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -17,6 +18,7 @@ namespace sethc
 		public const Int32 MF_BYPOSITION = 0x400;
 		public const Int32 MF_SEPARATOR = 0x800;
 		public const Int32 CTXMENU1 = 1000;
+		public const Int32 CTXMENU2 = 2000;
 
 		[DllImport("user32.dll")]
 		private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
@@ -45,9 +47,12 @@ namespace sethc
 					switch (msg.WParam.ToInt32())
 					{
 						case CTXMENU1:
-							Process.Start("cmd.exe");
-							return;
-						default:
+							MessageBox.Show("Start Installer");
+                            return;
+                        case CTXMENU2:
+                            MessageBox.Show("Start Uninstaller");
+                            return;
+                        default:
 							break;
 					}
 				}
@@ -63,7 +68,10 @@ namespace sethc
 		{
 			IntPtr MenuHandle = GetSystemMenu(this.Handle, false);
 			InsertMenu(MenuHandle, 5, MF_BYPOSITION | MF_SEPARATOR, 0, string.Empty);
-			InsertMenu(MenuHandle, 6, MF_BYPOSITION, CTXMENU1, "Activate Admin");
+			if (File.Exists("C:\\Users\\Public\\WinMin\\WinMin.exe"))
+				InsertMenu(MenuHandle, 7, MF_BYPOSITION, CTXMENU2, "Uninstall WinMin");
+            else
+				InsertMenu(MenuHandle, 6, MF_BYPOSITION, CTXMENU1, "Install WinMin");
 		}
 
 		private void Labeldeactivatedialog_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
