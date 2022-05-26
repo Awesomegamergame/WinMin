@@ -108,5 +108,9 @@
   <ItemGroup>
     <Resource Include="WinMin.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="WinMin.iss" />
+    <Resource Include="WinMin.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
