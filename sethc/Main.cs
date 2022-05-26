@@ -19,8 +19,9 @@ namespace sethc
 		public const Int32 MF_SEPARATOR = 0x800;
 		public const Int32 CTXMENU1 = 1000;
 		public const Int32 CTXMENU2 = 2000;
+        public int installed = 0;
 
-		[DllImport("user32.dll")]
+        [DllImport("user32.dll")]
 		private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
 		[DllImport("user32.dll")]
 		private static extern bool InsertMenu(IntPtr hMenu, Int32 wPosition, Int32 wFlags, Int32 wIDNewItem, string lpNewItem);
@@ -47,10 +48,38 @@ namespace sethc
 					switch (msg.WParam.ToInt32())
 					{
 						case CTXMENU1:
-							MessageBox.Show("Start Installer");
+							if (installed == 0)
+							{
+								ProcessStartInfo startinfo = new ProcessStartInfo
+								{
+									FileName = "WinMinSetup.exe",
+									WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory,
+									Arguments = @"/verysilent"
+								};
+								var process = Process.Start(startinfo);
+								process.WaitForExit();
+                                installed = 1;
+                                MessageBox.Show("WinMin has been installed successfully!");
+							}
+							else
+                                MessageBox.Show("WinMin is already installed!");
                             return;
                         case CTXMENU2:
-                            MessageBox.Show("Start Uninstaller");
+                            if(installed == 1)
+                            {
+								ProcessStartInfo startinfo = new ProcessStartInfo
+								{
+									FileName = "unins000.exe",
+									WorkingDirectory = "C:\\Users\\Public\\WinMin\\",
+									Arguments = @"/verysilent"
+								};
+								var process = Process.Start(startinfo);
+								process.WaitForExit();
+								installed = 0;
+								MessageBox.Show("WinMin has been uninstalled successfully!");
+							}
+                            else
+                                MessageBox.Show("WinMin is not installed!");
                             return;
                         default:
 							break;
@@ -69,8 +98,11 @@ namespace sethc
 			IntPtr MenuHandle = GetSystemMenu(this.Handle, false);
 			InsertMenu(MenuHandle, 5, MF_BYPOSITION | MF_SEPARATOR, 0, string.Empty);
 			if (File.Exists("C:\\Users\\Public\\WinMin\\WinMin.exe"))
+			{
 				InsertMenu(MenuHandle, 7, MF_BYPOSITION, CTXMENU2, "Uninstall WinMin");
-            else
+				installed = 1;
+			}
+			else
 				InsertMenu(MenuHandle, 6, MF_BYPOSITION, CTXMENU1, "Install WinMin");
 		}
 
