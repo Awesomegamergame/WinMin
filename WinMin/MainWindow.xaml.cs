@@ -24,9 +24,15 @@ namespace WinMin
             window = this;
             InitializeComponent();
         }
-        private void Button_Click(object sender, RoutedEventArgs e)
+
+        private void RegB_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("CMD.exe");
+            Process.Start("regedit.exe");
+        }
+
+        private void CmdB_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("cmd.exe");
         }
     }
 }

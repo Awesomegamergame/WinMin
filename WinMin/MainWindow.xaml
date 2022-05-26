@@ -5,9 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WinMin"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        ResizeMode="CanMinimize"
+        Title="WinMin" MinHeight="510" MinWidth="874" Height="510" Width="874">
     <Grid>
-        <Button Content="Button" HorizontalAlignment="Left" Click="Button_Click" Margin="364,217,0,0" VerticalAlignment="Top"/>
-
+        <Image x:Name="Background" Source="Images/Background.jpg" Stretch="Fill"/>
+        <Button x:Name="CmdB" Content="CMD" HorizontalAlignment="Left" Click="CmdB_Click" Margin="706,383,0,0" FontSize="16" VerticalAlignment="Top" Height="69" Width="105"/>
+        <Button x:Name="RegB" Content="Registry" HorizontalAlignment="Left" Click="RegB_Click" Margin="706,276,0,0" FontSize="16" VerticalAlignment="Top" Height="70" Width="105"/>
     </Grid>
 </Window>
