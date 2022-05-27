@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,7 +27,23 @@ namespace setup
         {
             if (AgreeBox.IsChecked == true)
             {
-                MessageBox.Show("Installation complete!");
+                AgreeBox.IsEnabled = false;
+                Install.IsEnabled = false;
+                Cancel.IsEnabled = false;
+                try
+                {
+                    File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\sethc.exe", "C:\\Windows\\System32\\sethc.exe", true);
+                    File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinSetup.exe", "C:\\Windows\\System32\\WinMinSetup.exe", true);
+                    MessageBox.Show("Installation complete. Please remove the flash drive then click ok to reboot.");
+                    Application.Current.Shutdown();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Critical Error: " + ex.Message);
+                    AgreeBox.IsEnabled = true;
+                    Install.IsEnabled = true;
+                    Cancel.IsEnabled = true;
+                }
             }
             else
             {
