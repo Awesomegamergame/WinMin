@@ -7,3 +7,5 @@ Road Map
 2. ~~Run the program on the lock screen in windows~~
 3. ~~Make an app that can update and use the admin perms~~
 4. ~~Make the setup program to copy the files to the pc~~
+
+Going to do some testing before i release the WinMin files
