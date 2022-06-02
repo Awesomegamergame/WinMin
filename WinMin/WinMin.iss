@@ -20,9 +20,9 @@ DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
-OutputDir=C:\Users\Nikoli\Desktop
+OutputDir=C:\Users\User\Desktop
 OutputBaseFilename=WinMinSetup
-SetupIconFile=C:\Users\Nikoli\source\repos\WinMin\WinMin\Images\WinMin.ico
+SetupIconFile=C:\Users\User\source\repos\WinMin\WinMin\Images\WinMin.ico
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -34,10 +34,10 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: checkedonce
 
 [Files]
-Source: "C:\Users\Nikoli\source\repos\WinMin\WinMin\bin\Debug\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Nikoli\source\repos\WinMin\WinMin\bin\Debug\WinMin.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Nikoli\source\repos\WinMin\WinMin\bin\Debug\WinMin.exe.config"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Nikoli\source\repos\WinMin\WinMin\bin\Debug\WinMin.pdb"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\User\source\repos\WinMin\WinMin\bin\Debug\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\User\source\repos\WinMin\WinMin\bin\Debug\WinMin.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\User\source\repos\WinMin\WinMin\bin\Debug\WinMin.exe.config"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\User\source\repos\WinMin\WinMin\bin\Debug\WinMin.pdb"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\WinMin.xml"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 

@@ -19,9 +19,9 @@ namespace sethc
 		public const Int32 MF_SEPARATOR = 0x800;
 		public const Int32 CTXMENU1 = 1000;
 		public const Int32 CTXMENU2 = 2000;
-        public int installed = 0;
+		public int installed = 0;
 
-        [DllImport("user32.dll")]
+		[DllImport("user32.dll")]
 		private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
 		[DllImport("user32.dll")]
 		private static extern bool InsertMenu(IntPtr hMenu, Int32 wPosition, Int32 wFlags, Int32 wIDNewItem, string lpNewItem);
@@ -50,44 +50,56 @@ namespace sethc
 						case CTXMENU1:
 							if (installed == 0)
 							{
-								ProcessStartInfo startinfo = new ProcessStartInfo
+								try
 								{
-									FileName = "WinMinSetup.exe",
-									WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory,
-									Arguments = @"/verysilent"
-								};
-								var process = Process.Start(startinfo);
-								process.WaitForExit();
-                                installed = 1;
-                                MessageBox.Show("WinMin has been installed successfully!");
-							}
+									ProcessStartInfo startinfo = new ProcessStartInfo
+									{
+										FileName = "C:\\Windows\\WinMinSetup.exe",
+										Arguments = @"/verysilent"
+									};
+									var process = Process.Start(startinfo);
+									process.WaitForExit();
+									installed = 1;
+									MessageBox.Show("WinMin has been activated successfully!");
+								}
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show(ex.Message);
+                                }	
+                            }
 							else
-                                MessageBox.Show("WinMin is already installed!");
-                            return;
-                        case CTXMENU2:
-                            if(installed == 1)
-                            {
-								ProcessStartInfo startinfo = new ProcessStartInfo
+								MessageBox.Show("WinMin is already activated!");
+							return;
+						case CTXMENU2:
+							if(installed == 1)
+							{
+								try
 								{
-									FileName = "unins000.exe",
-									WorkingDirectory = "C:\\Users\\Public\\WinMin\\",
-									Arguments = @"/verysilent"
-								};
-								var process = Process.Start(startinfo);
-								process.WaitForExit();
-								installed = 0;
-								MessageBox.Show("WinMin has been uninstalled successfully!");
-							}
-                            else
-                                MessageBox.Show("WinMin is not installed!");
-                            return;
-                        default:
+									ProcessStartInfo startinfo = new ProcessStartInfo
+									{
+										FileName = "C:\\Users\\Public\\WinMin\\unins000.exe",
+										Arguments = @"/verysilent"
+									};
+									var process = Process.Start(startinfo);
+									process.WaitForExit();
+									installed = 0;
+									MessageBox.Show("WinMin has been deactivated successfully!");
+								}
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show(ex.Message);
+                                }
+                            }
+							else
+								MessageBox.Show("WinMin is not already activated!");
+							return;
+						default:
 							break;
 					}
 				}
 				catch (Exception error)
 				{
-					Console.WriteLine($"Cannot open process: {error}");
+					Console.WriteLine($"Something went wrong: {error}");
 				}
 			}
 			base.WndProc(ref msg);
@@ -99,11 +111,11 @@ namespace sethc
 			InsertMenu(MenuHandle, 5, MF_BYPOSITION | MF_SEPARATOR, 0, string.Empty);
 			if (File.Exists("C:\\Users\\Public\\WinMin\\WinMin.exe"))
 			{
-				InsertMenu(MenuHandle, 7, MF_BYPOSITION, CTXMENU2, "Uninstall WinMin");
+				InsertMenu(MenuHandle, 7, MF_BYPOSITION, CTXMENU2, "Deactivate WinMin");
 				installed = 1;
 			}
 			else
-				InsertMenu(MenuHandle, 6, MF_BYPOSITION, CTXMENU1, "Install WinMin");
+				InsertMenu(MenuHandle, 6, MF_BYPOSITION, CTXMENU1, "Activate WinMin");
 		}
 
 		private void Labeldeactivatedialog_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -116,11 +128,11 @@ namespace sethc
 			{
 				try
 				{
-                    ProcessStartInfo skwinxp = new ProcessStartInfo("rundll32.exe")
-                    {
-                        Arguments = "Shell32.dll,Control_RunDLL access.cpl,,1"
-                    };
-                    Process.Start(skwinxp);
+					ProcessStartInfo skwinxp = new ProcessStartInfo("rundll32.exe")
+					{
+						Arguments = "Shell32.dll,Control_RunDLL access.cpl,,1"
+					};
+					Process.Start(skwinxp);
 				}
 				catch (Exception)
 				{
@@ -170,9 +182,9 @@ namespace sethc
 		private int GetErrorCode(Exception error)
 		{
 			int code = 1;
-            if (!(error is Win32Exception w32ex))
-                w32ex = error.InnerException as Win32Exception;
-            if (w32ex != null)
+			if (!(error is Win32Exception w32ex))
+				w32ex = error.InnerException as Win32Exception;
+			if (w32ex != null)
 				code = w32ex.ErrorCode;
 			return code;
 		}
