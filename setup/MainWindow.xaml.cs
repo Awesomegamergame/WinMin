@@ -40,7 +40,13 @@ namespace setup
                         {
                             if (folder.Contains("Windows"))
                             {
-                                windows = folder.Substring(0, folder.Length - 9);
+                                foreach (var file in Directory.GetFiles(folder))
+                                {
+                                    if (file.Contains("explorer.exe"))
+                                    {
+                                        windows = file.Substring(0, file.Length - 22);
+                                    }
+                                }
                             }
                         }
                     }
