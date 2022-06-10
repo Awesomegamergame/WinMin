@@ -59,7 +59,7 @@ namespace setup
                     {
                         WindowStyle = ProcessWindowStyle.Minimized,
                         FileName = "cmd.exe",
-                        Arguments = "/C reg load HKLM\\soft C:\\Windows\\System32\\config\\SOFTWARE"
+                        Arguments = $"/C reg load HKLM\\soft {windows}:\\Windows\\System32\\config\\SOFTWARE"
                     };
                     process.StartInfo = startInfo;
                     process.Start();
