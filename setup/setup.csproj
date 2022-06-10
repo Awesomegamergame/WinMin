@@ -91,10 +91,21 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="WinMinFiles\WinMin" />
+    <None Include="WinMinFiles\WinMin Startup" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Background.jpg" />
     <Resource Include="Images\WinMin.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="WinMin Startup.xml" />
+    <Resource Include="WinMin.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="WinMinFiles\psexec.exe" />
+    <Content Include="WinMinFiles\WinMin Launcher.exe" />
+    <Content Include="WinMinFiles\WinMin.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
