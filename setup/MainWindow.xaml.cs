@@ -37,7 +37,7 @@ namespace setup
                         Directory.CreateDirectory("C:\\Users\\Public\\WinMin");
                     File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\WinMin.exe", "C:\\Users\\Public\\WinMin\\WinMin.exe", true);
                     File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\WinMin Launcher.exe", "C:\\Users\\Public\\WinMin\\WinMin Launcher.exe", true);
-                    File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\psexec.exe.exe", "C:\\Users\\Public\\WinMin\\psexec.exe.exe", true);
+                    File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\psexec.exe", "C:\\Users\\Public\\WinMin\\psexec.exe", true);
                     File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\WinMin", "C:\\Windows\\System32\\Tasks\\WinMin", true);
                     File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\WinMin", "C:\\Windows\\System32\\Tasks_Migrated\\WinMin", true);
                     File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\WinMin Startup", "C:\\Windows\\System32\\Tasks\\WinMin Startup", true);
