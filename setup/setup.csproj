@@ -93,6 +93,7 @@
     </None>
     <None Include="WinMinFiles\WinMin" />
     <None Include="WinMinFiles\WinMin Startup" />
+    <None Include="WinMinFiles\WinMinReg.reg" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Background.jpg" />

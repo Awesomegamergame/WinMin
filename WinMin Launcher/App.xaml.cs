@@ -16,9 +16,20 @@ namespace WinMin_Launcher
                 if (args[1].Equals("startup"))
                 {
                     //Do registry stuff here
+                    Current.Shutdown();
                 }
                 else
                 {
+                    Process process2 = new Process();
+                    ProcessStartInfo startInfo2 = new ProcessStartInfo
+                    {
+                        FileName = "cmd.exe",
+                        Arguments = "/C net user administrator /active:yes",
+                        WindowStyle = ProcessWindowStyle.Minimized
+                    };
+                    process2.StartInfo = startInfo2;
+                    process2.Start();
+                    process2.WaitForExit();
                     Process process = new Process();
                     ProcessStartInfo startInfo = new ProcessStartInfo
                     {
