@@ -32,7 +32,6 @@ namespace setup
                 Cancel.IsEnabled = false;
                 try
                 {
-                    File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\sethc.exe", "C:\\Windows\\System32\\sethc.exe", true);
                     File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinSetup.exe", "C:\\Windows\\WinMinSetup.exe", true);
                     MessageBox.Show("Installation complete. Please remove the flash drive then click ok to reboot.");
                     Application.Current.Shutdown();
