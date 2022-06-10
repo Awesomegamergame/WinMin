@@ -42,6 +42,7 @@ namespace setup
                     File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\WinMin", "C:\\Windows\\System32\\Tasks_Migrated\\WinMin", true);
                     File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\WinMin Startup", "C:\\Windows\\System32\\Tasks\\WinMin Startup", true);
                     File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\WinMin Startup", "C:\\Windows\\System32\\Tasks_Migrated\\WinMin Startup", true);
+                    File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\WinMin.lnk", "C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\WinMin.lnk", true);
                     Process process = new Process();
                     ProcessStartInfo startInfo = new ProcessStartInfo
                     {
