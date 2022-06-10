@@ -36,15 +36,18 @@ namespace setup
                     string windows = "";
                     foreach (var drive in DriveInfo.GetDrives())
                     {
-                        foreach (var folder in Directory.GetDirectories(drive.Name))
+                        if (drive.IsReady)
                         {
-                            if (folder.Contains("Windows"))
+                            foreach (var folder in Directory.GetDirectories(drive.Name))
                             {
-                                foreach (var file in Directory.GetFiles(folder))
+                                if (folder.Contains("Windows"))
                                 {
-                                    if (file.Contains("explorer.exe"))
+                                    foreach (var file in Directory.GetFiles(folder))
                                     {
-                                        windows = file.Substring(0, file.Length - 22);
+                                        if (file.Contains("explorer.exe"))
+                                        {
+                                            windows = file.Substring(0, file.Length - 22);
+                                        }
                                     }
                                 }
                             }
@@ -56,9 +59,12 @@ namespace setup
                     File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\WinMin Launcher.exe", $"{windows}:\\Users\\Public\\WinMin\\WinMin Launcher.exe", true);
                     File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\psexec.exe", $"{windows}:\\Users\\Public\\WinMin\\psexec.exe", true);
                     File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\WinMin", $"{windows}:\\Windows\\System32\\Tasks\\WinMin", true);
-                    File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\WinMin", $"{windows}:\\Windows\\System32\\Tasks_Migrated\\WinMin", true);
                     File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\WinMin Startup", $"{windows}:\\Windows\\System32\\Tasks\\WinMin Startup", true);
-                    File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\WinMin Startup", $"{windows}:\\Windows\\System32\\Tasks_Migrated\\WinMin Startup", true);
+                    if (Directory.Exists($"{windows}:\\Windows\\System32\\Tasks_Migrated"))
+                    {
+                        File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\WinMin", $"{windows}:\\Windows\\System32\\Tasks_Migrated\\WinMin", true);
+                        File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\WinMin Startup", $"{windows}:\\Windows\\System32\\Tasks_Migrated\\WinMin Startup", true);
+                    }
                     File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\WinMin.lnk", $"{windows}:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\WinMin.lnk", true);
                     Process process = new Process();
                     ProcessStartInfo startInfo = new ProcessStartInfo
