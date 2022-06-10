@@ -1,0 +1,14 @@
+﻿<Window x:Class="WinMin_Launcher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WinMin_Launcher"
+        mc:Ignorable="d" Loaded="Window_Loaded"
+        Title="WinMin Launcher" Height="300" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Grid>
+        <Image Source="Images/Background.jpg" Stretch="Fill"/>
+        <Label Content="WinMin Launcher" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="54" Margin="0,30,0,0"/>
+        <Label Content="WinMin is Now Loading" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Height="54" Margin="0,30,0,0"/>
+    </Grid>
+</Window>
