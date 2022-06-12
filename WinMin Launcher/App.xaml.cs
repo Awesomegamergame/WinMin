@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Windows;
 using System.Diagnostics;
 
@@ -10,12 +9,12 @@ namespace WinMin_Launcher
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             string[] args = Environment.GetCommandLineArgs();
-            File.WriteAllText("C:\\Users\\Nikoli\\hi.txt", args.Length.ToString());
             if(args.Length == 2)
             {
                 if (args[1].Equals("startup"))
                 {
                     //Do registry stuff here
+                    //Right now well just shutdown the app
                     Current.Shutdown();
                 }
                 else
