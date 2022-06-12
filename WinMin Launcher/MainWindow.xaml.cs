@@ -23,7 +23,7 @@ namespace WinMin_Launcher
             ProcessStartInfo startInfo = new ProcessStartInfo()
             {
                 FileName = "C:\\Users\\Public\\WinMin\\psexec.exe",
-                Arguments = $@"-u {Environment.MachineName}\Administrator -p Password1 -d C:\Users\Public\WinMin\WinMin.exe",
+                Arguments = $@"/accepteula -u {Environment.MachineName}\Administrator -p Password1 -d C:\Users\Public\WinMin\WinMin.exe",
                 WindowStyle = ProcessWindowStyle.Minimized
             };
             Process.Start(startInfo);
