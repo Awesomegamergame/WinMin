@@ -106,8 +106,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="WinMinFiles\psexec.exe" />
-    <Content Include="WinMinFiles\WinMin Launcher.exe" />
-    <Content Include="WinMinFiles\WinMin.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
