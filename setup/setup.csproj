@@ -95,6 +95,7 @@
     <None Include="WinMinFiles\WinMin Startup" />
     <None Include="WinMinFiles\WinMin.lnk" />
     <None Include="WinMinFiles\WinMinReg.reg" />
+    <None Include="Winpeshl.ini" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Background.jpg" />
