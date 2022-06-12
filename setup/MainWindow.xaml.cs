@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace setup
 {
@@ -32,8 +33,59 @@ namespace setup
                 Cancel.IsEnabled = false;
                 try
                 {
-                    File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\sethc.exe", "C:\\Windows\\System32\\sethc.exe", true);
-                    File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinSetup.exe", "C:\\Windows\\WinMinSetup.exe", true);
+                    string windows = "";
+                    foreach (var drive in DriveInfo.GetDrives())
+                    {
+                        if (drive.IsReady)
+                        {
+                            foreach (var folder in Directory.GetDirectories(drive.Name))
+                            {
+                                if (folder.Contains("Windows"))
+                                {
+                                    foreach (var file in Directory.GetFiles(folder))
+                                    {
+                                        if (file.Contains("explorer.exe"))
+                                        {
+                                            windows = file.Substring(0, file.Length - 22);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (!Directory.Exists($"{windows}:\\Users\\Public\\WinMin"))
+                        Directory.CreateDirectory($"{windows}:\\Users\\Public\\WinMin");
+                    File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\WinMin.exe", $"{windows}:\\Users\\Public\\WinMin\\WinMin.exe", true);
+                    File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\WinMin Launcher.exe", $"{windows}:\\Users\\Public\\WinMin\\WinMin Launcher.exe", true);
+                    File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\psexec.exe", $"{windows}:\\Users\\Public\\WinMin\\psexec.exe", true);
+                    File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\WinMin", $"{windows}:\\Windows\\System32\\Tasks\\WinMin", true);
+                    File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\WinMin Startup", $"{windows}:\\Windows\\System32\\Tasks\\WinMin Startup", true);
+                    if (Directory.Exists($"{windows}:\\Windows\\System32\\Tasks_Migrated"))
+                    {
+                        File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\WinMin", $"{windows}:\\Windows\\System32\\Tasks_Migrated\\WinMin", true);
+                        File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\WinMin Startup", $"{windows}:\\Windows\\System32\\Tasks_Migrated\\WinMin Startup", true);
+                    }
+                    File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\WinMin.lnk", $"{windows}:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\WinMin.lnk", true);
+                    Process process = new Process();
+                    ProcessStartInfo startInfo = new ProcessStartInfo
+                    {
+                        WindowStyle = ProcessWindowStyle.Minimized,
+                        FileName = "cmd.exe",
+                        Arguments = $"/C reg load HKLM\\soft {windows}:\\Windows\\System32\\config\\SOFTWARE"
+                    };
+                    process.StartInfo = startInfo;
+                    process.Start();
+                    process.WaitForExit();
+                    Process process2 = new Process();
+                    ProcessStartInfo startInfo2 = new ProcessStartInfo
+                    {
+                        WindowStyle = ProcessWindowStyle.Minimized,
+                        FileName = "cmd.exe",
+                        Arguments = $"/C reg import {AppDomain.CurrentDomain.BaseDirectory}\\WinMinFiles\\WinMinReg.reg"
+                    };
+                    process2.StartInfo = startInfo2;
+                    process2.Start();
+                    process2.WaitForExit();
                     MessageBox.Show("Installation complete. Please remove the flash drive then click ok to reboot.");
                     Application.Current.Shutdown();
                 }
