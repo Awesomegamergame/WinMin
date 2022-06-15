@@ -22,7 +22,6 @@ namespace WinMin
 
         private void CmdB_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Hi");
             Process.Start("cmd.exe");
         }
         #region Updates
