@@ -28,7 +28,7 @@ jobs:
     - name: Download Blank Boot.wim
       uses: suisei-cn/actions-download-file@v1
       with:
-        url: https://github.com/awesomegamergame/git/releases/download/0.1.0/boot.wim
+        url: https://github.com/awesomegamergame/WinMin/releases/download/0.0.0/boot.wim
         target: ./setup/WinMin/sources/
     
     - name: Copy Built Files
