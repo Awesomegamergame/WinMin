@@ -5,11 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WinMin"
         mc:Ignorable="d"
-        ResizeMode="CanMinimize"
+        ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen"
         Title="WinMin" MinHeight="510" MinWidth="874" Height="510" Width="874">
-    <Grid>
-        <Image x:Name="BackgroundI" Source="Images/Background.jpg" Stretch="Fill"/>
-        <Button x:Name="CmdB" Content="CMD" HorizontalAlignment="Left" Click="CmdB_Click" Margin="706,383,0,0" FontSize="16" VerticalAlignment="Top" Height="69" Width="105"/>
-        <Button x:Name="RegB" Content="Registry" HorizontalAlignment="Left" Click="RegB_Click" Margin="706,276,0,0" FontSize="16" VerticalAlignment="Top" Height="70" Width="105"/>
+    <Grid Background="#FF7F7F7F">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="23*"/>
+            <RowDefinition Height="73*"/>
+        </Grid.RowDefinitions>
+        <Button x:Name="CmdB" Content="CMD" HorizontalAlignment="Left" Click="CmdB_Click" Margin="706,250,0,0" FontSize="16" VerticalAlignment="Top" Height="69" Width="105" Grid.Row="1"/>
+        <Button x:Name="RegB" Content="Registry" HorizontalAlignment="Left" Click="RegB_Click" Margin="706,150,0,0" FontSize="16" VerticalAlignment="Top" Height="70" Width="105" Grid.Row="1"/>
+        
+        <Image x:Name="UpdateScreen" Source="Images/Background.jpg" Visibility="Collapsed" Margin="0,0,0.333,-13.333" Grid.RowSpan="2" Stretch="Fill"/>
+        <Label x:Name="UpdateText1" Visibility="Collapsed" Content="App Update Available" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="280,25,253,0" FontSize="25" Height="44" Width="313" Grid.Row="1"/>
+        <Label x:Name="UpdateText2" Visibility="Collapsed" Content="Do You Want To Update" HorizontalAlignment="Center" FontSize="15" Margin="347,90,330,240" Grid.Row="1" Width="169"/>
+        <Button x:Name="Yes" Content="Yes" Visibility="Collapsed" Click="Yes_Click" HorizontalAlignment="Center" Width="85" Background="#99249C1E" Margin="323,178,438,0" Grid.Row="1" Height="40" VerticalAlignment="Top"/>
+        <ProgressBar x:Name="UpdateProgress" Visibility="Collapsed" HorizontalAlignment="Center" Width="256" Margin="300,185,290,0" Grid.Row="1" Height="28" VerticalAlignment="Top"/>
+        <Button x:Name="No" Content="No" Visibility="Collapsed" Click="No_Click" Background="#99B53B20" Margin="448,178,313,0" Grid.Row="1" HorizontalAlignment="Center" Width="85" Height="40" VerticalAlignment="Top"/>
+        <Label x:Name="LocalVersionNumber" Visibility="Collapsed" Content="" HorizontalAlignment="Center" FontSize="15" Margin="230,260,537,0" RenderTransformOrigin="0.443,1.844" Width="79" Grid.Row="1" Height="35" VerticalAlignment="Top"/>
+        <Label x:Name="LocalVersion" Visibility="Collapsed" Content="Current:" HorizontalAlignment="Center" FontSize="15" Margin="167,260,616,0" RenderTransformOrigin="0.443,1.844" Width="63" Grid.Row="1" Height="35" VerticalAlignment="Top"/>
+        <Label x:Name="OnlineVersionNumber" Visibility="Collapsed" Content="" HorizontalAlignment="Center" FontSize="15" Margin="624,260,152,0" RenderTransformOrigin="0.443,1.844" Width="70" Grid.Row="1" Height="35" VerticalAlignment="Top"/>
+        <Label x:Name="OnlineVersion" Visibility="Collapsed" Content="New:" HorizontalAlignment="Center" FontSize="15" Margin="585,260,198,0" RenderTransformOrigin="0.443,1.844" Width="63" Grid.Row="1" Height="35" VerticalAlignment="Top"/>
     </Grid>
 </Window>
