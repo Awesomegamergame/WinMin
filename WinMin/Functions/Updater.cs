@@ -39,15 +39,10 @@ namespace WinMin.Functions
         public static void Update()
         {
             string exeOld = Path.Combine(rootPath, "WinMin.exe.old");
-            string pdbOld = Path.Combine(rootPath, "WinMin.pdb.old");
 
             if (File.Exists(exeOld))
             {
                 File.Delete(exeOld);
-            }
-            if (File.Exists(pdbOld))
-            {
-                File.Delete(pdbOld);
             }
             if (Directory.Exists(startPath))
             {
@@ -113,7 +108,6 @@ namespace WinMin.Functions
         private static void AppGameCompletedCallback(object sender, AsyncCompletedEventArgs e)
         {
             string Exe = Path.Combine(rootPath, "WinMin.exe");
-            string pdb = Path.Combine(rootPath, "WinMin.pdb");
             try
             {
                 string onlineVersion = ((Version)e.UserState).ToString();
@@ -122,10 +116,6 @@ namespace WinMin.Functions
                     if (File.Exists(Exe))
                     {
                         File.Move($"{rootPath}\\WinMin.exe", $"{rootPath}\\WinMin.exe.old");
-                    }
-                    if (File.Exists(pdb))
-                    {
-                        File.Move($"{rootPath}\\WinMin.pdb", $"{rootPath}\\WinMin.pdb.old");
                     }
                     try
                     {
