@@ -1,0 +1,72 @@
+name: Bleeding Edge Build
+on:
+  push:
+    branches: [ dev ]
+  pull_request:
+    branches: [ dev ]
+jobs:
+  build:
+    runs-on: windows-2019
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      
+    - name: Setup msbuild
+      uses: microsoft/setup-msbuild@v1.1
+      
+    - name: Build Project
+      run: msbuild Winmin.sln /t:Build /p:Configuration=Debug
+    
+    - name: Download Blank Boot.wim
+      uses: suisei-cn/actions-download-file@v1
+      with:
+        url: https://github.com/awesomegamergame/git/releases/download/0.1.0/boot.wim
+        target: ./setup/WinMin/sources/
+    
+    - name: Copy Built Files
+      shell: bash
+      run: |
+        cp ./setup/bin/Debug/setup.exe ./setup/"Setup Files"/setup.exe
+        cp ./WinMin/bin/Debug/WinMin.exe ./setup/"Setup Files"/WinMinFiles/WinMin.exe
+        cp ./"WinMin Launcher"/bin/Debug/"WinMin Launcher.exe" ./setup/"Setup Files"/WinMinFiles/"WinMin Launcher.exe"
+    
+    - name: Mount Wim
+      run: |
+        mkdir ./setup/mount
+        dism /mount-image /imagefile:./setup/WinMin/sources/boot.wim /index:1 /mountdir:./setup/mount/
+    
+    - name: Copy Built Files to Wim
+      shell: bash
+      run: |
+        cp -r ./setup/"Setup Files"/WinMinFiles ./setup/Mount/Windows/System32
+        cp ./setup/"Setup Files"/setup.exe ./setup/Mount/Windows/System32
+        cp ./setup/Winpeshl.ini ./setup/Mount/Windows/System32
+    
+    - name: Unmount Wim
+      run: dism /unmount-image /mountdir:./setup/Mount /commit
+      
+    - name: Zip Bootable WinMin
+      uses: vimtor/action-zip@v1
+      with:
+        files: ./setup/WinMin
+        dest: ./setup/WinMin.zip
+    
+    - name: Resolve Short Commit Hash
+      if: startsWith(github.ref, 'refs/tags/') == false
+      id: get_hash
+      shell: bash
+      run: echo ::set-output name=hash::`git rev-parse --short HEAD`
+    
+    - name: Upload Bootable WinMin.zip
+      if: startsWith(github.ref, 'refs/tags/') == false
+      uses: actions/upload-artifact@v2
+      with:
+        name: WinMin-${{ steps.get_hash.outputs.hash }}
+        path: ./setup/WinMin/
+
+    - name: Upload Built WinMinFiles.zip
+      if: startsWith(github.ref, 'refs/tags/') == false
+      uses: actions/upload-artifact@v2
+      with:
+        name: WinMinFiles-${{ steps.get_hash.outputs.hash }}
+        path: ./setup/Setup Files/    
