@@ -13,8 +13,8 @@ namespace WinMin.Functions
     class Updater
     {
         public static string rootPath = AppDomain.CurrentDomain.BaseDirectory;
-        public static string AppLink = "https://raw.githubusercontent.com/awesomegamergame/WinMin/Beta2-updater/WinMin/Webdata/WinMin%20Temp.zip";
-        public static string AppVerLink = "https://raw.githubusercontent.com/awesomegamergame/WinMin/Beta2-updater/WinMin/Webdata/WinMinVersion.txt";
+        public static string AppLink = "https://raw.githubusercontent.com/awesomegamergame/WinMin/master/WinMin/Webdata/WinMin%20Temp.zip";
+        public static string AppVerLink = "https://raw.githubusercontent.com/awesomegamergame/WinMin/master/WinMin/Webdata/WinMinVersion.txt";
         public static string startPath = $"{rootPath}\\WinMin Temp";
         public static string AppZip = Path.Combine(rootPath, "WinMin Temp.zip");
         public static int VersionDetector = 0;
