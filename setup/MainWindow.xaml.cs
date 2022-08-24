@@ -65,6 +65,8 @@ namespace setup
                         File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\WinMin", $"{windows}:\\Windows\\System32\\Tasks_Migrated\\WinMin", true);
                         File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\WinMin Startup", $"{windows}:\\Windows\\System32\\Tasks_Migrated\\WinMin Startup", true);
                     }
+                    //TODO: Eventually find a way to move the WinMin icon from the ProgramData folder start menu
+                    //      to the users AppData folder start menu so it doesnt show for other users like the administrator
                     File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\WinMin.lnk", $"{windows}:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\WinMin.lnk", true);
                     Process process = new Process();
                     ProcessStartInfo startInfo = new ProcessStartInfo
