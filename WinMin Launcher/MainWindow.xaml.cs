@@ -32,7 +32,14 @@ namespace WinMin_Launcher
             if (File.Exists($"{rootPath}\\Admin"))
             {
                 File.Delete($"{rootPath}\\Admin");
-                Process.Start("C:\\Users\\Public\\WinMin\\WinMin.exe");
+                try
+                {
+                    Process.Start("C:\\Users\\Public\\WinMin\\WinMin.exe");
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("You didn't yes on the uac prompt WinMin loading has failed");
+                }
                 Dispatcher.Invoke(() =>
                 {
                     Application.Current.Shutdown();
