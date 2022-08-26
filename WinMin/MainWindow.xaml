@@ -14,7 +14,10 @@
         </Grid.RowDefinitions>
         <Button x:Name="CmdB" Content="CMD" HorizontalAlignment="Left" Click="CmdB_Click" Margin="706,250,0,0" FontSize="16" VerticalAlignment="Top" Height="69" Width="105" Grid.Row="1"/>
         <Button x:Name="RegB" Content="Registry" HorizontalAlignment="Left" Click="RegB_Click" Margin="706,150,0,0" FontSize="16" VerticalAlignment="Top" Height="70" Width="105" Grid.Row="1"/>
-        
+        <Label Content="Unblock all settings" HorizontalAlignment="Left" Margin="34,10,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="Settings" Content="Enable" HorizontalAlignment="Left" Click="Settings_Click" Initialized="Settings_Initialized" Margin="43,36,0,0" FontSize="16" VerticalAlignment="Top" Height="60" Width="95"/>
+        <Label Content="It is required to log out then in after unblocking the settings to take effect" HorizontalAlignment="Left" Margin="109,320,0,0" FontSize="16" VerticalAlignment="Top" Grid.Row="1"/>
+
         <Image x:Name="UpdateScreen" Source="Images/Background.jpg" Visibility="Collapsed" Margin="0,0,0.333,-13.333" Grid.RowSpan="2" Stretch="Fill"/>
         <Label x:Name="UpdateText1" Visibility="Collapsed" Content="App Update Available" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="280,25,253,0" FontSize="25" Height="44" Width="313" Grid.Row="1"/>
         <Label x:Name="UpdateText2" Visibility="Collapsed" Content="Do You Want To Update" HorizontalAlignment="Center" FontSize="15" Margin="347,90,330,240" Grid.Row="1" Width="169"/>

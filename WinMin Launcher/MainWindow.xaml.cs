@@ -9,7 +9,7 @@ namespace WinMin_Launcher
 {
     public partial class MainWindow : Window
     {
-        public string rootPath = AppDomain.CurrentDomain.BaseDirectory;
+        public string rootPath = @"C:\Users\Public\WinMin";
 
         public MainWindow()
         {
@@ -29,20 +29,33 @@ namespace WinMin_Launcher
             if (!File.Exists($"{rootPath}\\UserID.txt"))
                 File.WriteAllText($"{rootPath}\\UserID.txt", WindowsIdentity.GetCurrent().User.Value);
 
-            Process process = new Process();
-            ProcessStartInfo startInfo = new ProcessStartInfo()
+            if (File.Exists($"{rootPath}\\Admin"))
             {
-                FileName = "C:\\Users\\Public\\WinMin\\psexec.exe",
-                Arguments = $@"/accepteula -u {Environment.MachineName}\Administrator -p Password1 -d C:\Users\Public\WinMin\WinMin.exe",
-                WindowStyle = ProcessWindowStyle.Hidden
-            };
-            process.StartInfo = startInfo;
-            process.Start();
-            process.WaitForExit();
-            Dispatcher.Invoke(() => 
+                File.Delete($"{rootPath}\\Admin");
+                Process.Start("C:\\Users\\Public\\WinMin\\WinMin.exe");
+                Dispatcher.Invoke(() =>
+                {
+                    Application.Current.Shutdown();
+                });
+            }
+            else
             {
-                Application.Current.Shutdown();
-            });
+                File.WriteAllText($"{rootPath}\\Admin", "");
+                Process process = new Process();
+                ProcessStartInfo startInfo = new ProcessStartInfo()
+                {
+                    FileName = "C:\\Users\\Public\\WinMin\\psexec.exe",
+                    Arguments = $@"/accepteula -u {Environment.MachineName}\Administrator -p Password1 -d ""C:\Users\Public\WinMin\WinMin Launcher.exe""",
+                    WindowStyle = ProcessWindowStyle.Hidden
+                };
+                process.StartInfo = startInfo;
+                process.Start();
+                process.WaitForExit();
+                Dispatcher.Invoke(() =>
+                {
+                    Application.Current.Shutdown();
+                });
+            }
         }
     }
 }
