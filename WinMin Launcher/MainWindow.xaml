@@ -10,5 +10,6 @@
         <Image Source="Images/Background.jpg" Stretch="Fill"/>
         <Label Content="WinMin Launcher" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="54" Margin="0,30,0,0"/>
         <Label Content="WinMin is Now Loading" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Height="54" Margin="0,30,0,0"/>
+        <Label Content="Make sure to click yes on the prompt" HorizontalAlignment="Center" Margin="0,166,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

@@ -10,7 +10,7 @@
         WindowStartupLocation="CenterScreen">
     <Grid>
         <Image x:Name="BackgroundI" Source="Images/Background.jpg" Stretch="Fill"/>
-        <Button x:Name="Install" Content="Install" HorizontalAlignment="Right" Click="Install_Click" FontSize="20" Margin="0,0,39,24" Width="126" Height="71" VerticalAlignment="Bottom"/>
+        <Button x:Name="Install" Initialized="Install_Initialized" HorizontalAlignment="Right" Click="Install_Click" FontSize="20" Margin="0,0,39,24" Width="126" Height="71" VerticalAlignment="Bottom"/>
         <Button x:Name="Cancel" Content="Cancel" HorizontalAlignment="Left" Click="Cancel_Click" FontSize="20" Margin="38,0,0,24" Width="126" Height="71" VerticalAlignment="Bottom"/>
         <Label x:Name="TitleL" Content="Welcome to the WinMin setup" HorizontalAlignment="Center" Margin="0,37,0,0" FontSize="30" VerticalAlignment="Top"/>
         <TextBlock x:Name="Body" Text="This application will give you access to any settings as well as grant you administrator on this computer and this one only. Please check the box below to show that you understand that i am not responsible for any harm to the computer or any trouble that you get into for using this application to bypass security that is in place by your organization or group." TextWrapping="WrapWithOverflow" TextAlignment="Justify" HorizontalAlignment="Center" FontSize="18" Margin="0,103,0,0" VerticalAlignment="Top" Height="172" Width="451"/>

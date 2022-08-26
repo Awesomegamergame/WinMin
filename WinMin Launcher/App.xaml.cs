@@ -13,8 +13,11 @@ namespace WinMin_Launcher
             {
                 if (args[1].Equals("startup"))
                 {
-                    //Do registry stuff here
-                    //Right now well just shutdown the app
+                    //TODO: Make some kind of registry loader and load the hives for the last logged in user
+                    //      then change the listed values in a file then shutdown the app
+
+                    //NOT IMPLEMENTED: Registry loading
+                    //                 Right now well just shutdown the app
                     Current.Shutdown();
                 }
                 else
