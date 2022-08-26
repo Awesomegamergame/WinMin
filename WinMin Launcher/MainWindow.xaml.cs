@@ -36,7 +36,7 @@ namespace WinMin_Launcher
                 {
                     Process.Start("C:\\Users\\Public\\WinMin\\WinMin.exe");
                 }
-                catch(Exception ex)
+                catch(Exception)
                 {
                     MessageBox.Show("You didn't yes on the uac prompt WinMin loading has failed");
                 }
