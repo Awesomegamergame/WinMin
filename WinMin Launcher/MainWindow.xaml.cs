@@ -38,7 +38,7 @@ namespace WinMin_Launcher
                 }
                 catch(Exception)
                 {
-                    MessageBox.Show("You didn't yes on the uac prompt WinMin loading has failed");
+                    MessageBox.Show("You didn't hit yes on the uac prompt WinMin loading has failed");
                 }
                 Dispatcher.Invoke(() =>
                 {

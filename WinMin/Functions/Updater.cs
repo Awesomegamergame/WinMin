@@ -39,10 +39,15 @@ namespace WinMin.Functions
         public static void Update()
         {
             string exeOld = Path.Combine(rootPath, "WinMin.exe.old");
+            string dllOld = Path.Combine(rootPath, "Newtonsoft.Json.dll.old");
 
             if (File.Exists(exeOld))
             {
                 File.Delete(exeOld);
+            }
+            if (File.Exists(dllOld))
+            {
+                File.Delete(dllOld);
             }
             if (Directory.Exists(startPath))
             {
@@ -108,6 +113,7 @@ namespace WinMin.Functions
         private static void AppGameCompletedCallback(object sender, AsyncCompletedEventArgs e)
         {
             string Exe = Path.Combine(rootPath, "WinMin.exe");
+            string Dll = Path.Combine(rootPath, "Newtonsoft.Json.dll");
             try
             {
                 string onlineVersion = ((Version)e.UserState).ToString();
@@ -116,6 +122,10 @@ namespace WinMin.Functions
                     if (File.Exists(Exe))
                     {
                         File.Move($"{rootPath}\\WinMin.exe", $"{rootPath}\\WinMin.exe.old");
+                    }
+                    if (File.Exists(Dll))
+                    {
+                        File.Move($"{rootPath}\\Newtonsoft.Json.dll", $"{rootPath}\\Newtonsoft.Json.dll.old");
                     }
                     try
                     {

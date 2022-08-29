@@ -12,6 +12,7 @@ namespace WinMin
     public partial class MainWindow : Window
     {
         public static MainWindow window;
+        readonly string userID = File.ReadAllText(@"C:\Users\Public\WinMin\UserID.txt");
         public MainWindow()
         {
             Updater.CheckInternetState();
@@ -68,7 +69,6 @@ namespace WinMin
             int button = (int)(sender as Button).Tag;
             if (button == 1)
             {
-                string userID = File.ReadAllText(@"C:\Users\Public\WinMin\UserID.txt");
                 RegistryKey key = Registry.Users.OpenSubKey($@"{userID}\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer", true);
 
                 if (key != null)
@@ -81,7 +81,6 @@ namespace WinMin
             }
             else
             {
-                string userID = File.ReadAllText(@"C:\Users\Public\WinMin\UserID.txt");
                 RegistryKey key = Registry.Users.OpenSubKey($@"{userID}\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer", true);
 
                 if (key != null)
@@ -96,8 +95,6 @@ namespace WinMin
 
         private void Settings_Initialized(object sender, EventArgs e)
         {
-            Settings.Tag = 1;
-            string userID = File.ReadAllText(@"C:\Users\Public\WinMin\UserID.txt");
             RegistryKey key = Registry.Users.OpenSubKey($@"{userID}\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer", true);
 
             string value;

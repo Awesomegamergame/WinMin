@@ -35,6 +35,15 @@ namespace setup
                 if (WinMin)
                 {
                     MessageBox.Show("Not Ready");
+                    DeleteDirectory($"{windows}:\\Users\\Public\\WinMin");
+                    if (File.Exists($"{windows}:\\Windows\\System32\\Tasks_Migrated\\WinMin"))
+                        File.Delete($"{windows}:\\Windows\\System32\\Tasks_Migrated\\WinMin");
+                    if (File.Exists($"{windows}:\\Windows\\System32\\Tasks_Migrated\\WinMin Startup"))
+                        File.Delete($"{windows}:\\Windows\\System32\\Tasks_Migrated\\WinMin Startup");
+                    if (File.Exists($"{windows}:\\Windows\\System32\\Tasks\\WinMin"))
+                        File.Delete($"{windows}:\\Windows\\System32\\Tasks\\WinMin");
+                    if (File.Exists($"{windows}:\\Windows\\System32\\Tasks\\WinMin Startup"))
+                        File.Delete($"{windows}:\\Windows\\System32\\Tasks\\WinMin Startup");
                 }
                 else
                 {
@@ -48,6 +57,7 @@ namespace setup
                         if (!Directory.Exists($"{windows}:\\Users\\Public\\WinMin"))
                             Directory.CreateDirectory($"{windows}:\\Users\\Public\\WinMin");
                         File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\WinMin.exe", $"{windows}:\\Users\\Public\\WinMin\\WinMin.exe", true);
+                        File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\Newtonsoft.Json.dll", $"{windows}:\\Users\\Public\\WinMin\\Newtonsoft.Json.dll", true);
                         File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\WinMin Launcher.exe", $"{windows}:\\Users\\Public\\WinMin\\WinMin Launcher.exe", true);
                         File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\psexec.exe", $"{windows}:\\Users\\Public\\WinMin\\psexec.exe", true);
                         File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\WinMinFiles\\WinMin", $"{windows}:\\Windows\\System32\\Tasks\\WinMin", true);
@@ -138,6 +148,24 @@ namespace setup
                 WinMin = false;
                 Install.Content = "Install";
             }
+        }
+        public static void DeleteDirectory(string target_dir)
+        {
+            string[] files = Directory.GetFiles(target_dir);
+            string[] dirs = Directory.GetDirectories(target_dir);
+
+            foreach (string file in files)
+            {
+                File.SetAttributes(file, FileAttributes.Normal);
+                File.Delete(file);
+            }
+
+            foreach (string dir in dirs)
+            {
+                DeleteDirectory(dir);
+            }
+
+            Directory.Delete(target_dir, false);
         }
     }
 }
