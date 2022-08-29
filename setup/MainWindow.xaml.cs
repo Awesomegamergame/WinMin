@@ -78,7 +78,7 @@ namespace setup
                         process2.Start();
                         process2.WaitForExit();
                         MessageBox.Show("Uninstallation complete. Please remove the flash drive then click ok to reboot.");
-
+                        Application.Current.Shutdown();
                     }
                     catch (Exception ex)
                     {
