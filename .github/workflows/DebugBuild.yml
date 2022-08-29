@@ -27,7 +27,7 @@ jobs:
       shell: bash
       run: |
         cp ./setup/bin/Debug/setup.exe ./setup/"Setup Files"/setup.exe
-	cp ./WinMin/bin/Debug/Newtonsoft.Json.dll ./setup/"Setup Files"/WinMinFiles/Newtonsoft.Json.dll
+        cp ./WinMin/bin/Debug/Newtonsoft.Json.dll ./setup/"Setup Files"/WinMinFiles/Newtonsoft.Json.dll
         cp ./WinMin/bin/Debug/WinMin.exe ./setup/"Setup Files"/WinMinFiles/WinMin.exe
         cp ./"WinMin Launcher"/bin/Debug/"WinMin Launcher.exe" ./setup/"Setup Files"/WinMinFiles/"WinMin Launcher.exe"
     
