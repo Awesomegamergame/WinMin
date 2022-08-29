@@ -28,6 +28,8 @@ namespace WinMin_Launcher
         {
             if (!File.Exists($"{rootPath}\\UserID.txt"))
                 File.WriteAllText($"{rootPath}\\UserID.txt", WindowsIdentity.GetCurrent().User.Value);
+            if (!File.Exists($"{rootPath}\\UserName.txt"))
+                File.WriteAllText($"{rootPath}\\UserName.txt", Environment.UserName);
 
             if (File.Exists($"{rootPath}\\Admin"))
             {

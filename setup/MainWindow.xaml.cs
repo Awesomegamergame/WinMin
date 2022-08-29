@@ -25,7 +25,6 @@ namespace setup
         {
             InitializeComponent();
         }
-        //TODO: Have the setup program detect if WinMin is installed and remove all of the files.
 
         #region Installer
         private void Install_Click(object sender, RoutedEventArgs e)
@@ -34,7 +33,14 @@ namespace setup
             {
                 if (WinMin)
                 {
-                    MessageBox.Show("Not Ready");
+                    if (File.Exists($"{windows}:\\Users\\Public\\WinMin\\UserName.txt"))
+                    {
+                        string userName = File.ReadAllText($"{windows}:\\Users\\Public\\WinMin\\UserName.txt");
+                        if (File.Exists($"{windows}:\\Users\\{userName}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\WinMin.lnk"))
+                        {
+                            File.Delete($"{windows}:\\Users\\{userName}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\WinMin.lnk");
+                        }
+                    }
                     DeleteDirectory($"{windows}:\\Users\\Public\\WinMin");
                     if (File.Exists($"{windows}:\\Windows\\System32\\Tasks_Migrated\\WinMin"))
                         File.Delete($"{windows}:\\Windows\\System32\\Tasks_Migrated\\WinMin");
@@ -44,10 +50,31 @@ namespace setup
                         File.Delete($"{windows}:\\Windows\\System32\\Tasks\\WinMin");
                     if (File.Exists($"{windows}:\\Windows\\System32\\Tasks\\WinMin Startup"))
                         File.Delete($"{windows}:\\Windows\\System32\\Tasks\\WinMin Startup");
+                    if (File.Exists($"{windows}:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\WinMin.lnk"))
+                        File.Delete($"{windows}:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\WinMin.lnk");
+                    Process process = new Process();
+                    ProcessStartInfo startInfo = new ProcessStartInfo
+                    {
+                        WindowStyle = ProcessWindowStyle.Minimized,
+                        FileName = "cmd.exe",
+                        Arguments = $"/C reg load HKLM\\soft {windows}:\\Windows\\System32\\config\\SOFTWARE"
+                    };
+                    process.StartInfo = startInfo;
+                    process.Start();
+                    process.WaitForExit();
+                    Process process2 = new Process();
+                    ProcessStartInfo startInfo2 = new ProcessStartInfo
+                    {
+                        WindowStyle = ProcessWindowStyle.Minimized,
+                        FileName = "cmd.exe",
+                        Arguments = $"/C reg import {AppDomain.CurrentDomain.BaseDirectory}\\WinMinFiles\\WinMinRegUninstall.reg"
+                    };
+                    process2.StartInfo = startInfo2;
+                    process2.Start();
+                    process2.WaitForExit();
                 }
                 else
-                {
-                    
+                {   
                     AgreeBox.IsEnabled = false;
                     Install.IsEnabled = false;
                     Cancel.IsEnabled = false;
@@ -106,7 +133,6 @@ namespace setup
             }    
         }
         #endregion
-
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
