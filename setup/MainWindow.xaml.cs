@@ -33,45 +33,60 @@ namespace setup
             {
                 if (WinMin)
                 {
-                    if (File.Exists($"{windows}:\\Users\\Public\\WinMin\\UserName.txt"))
+                    AgreeBox.IsEnabled = false;
+                    Install.IsEnabled = false;
+                    Cancel.IsEnabled = false;
+                    try
                     {
-                        string userName = File.ReadAllText($"{windows}:\\Users\\Public\\WinMin\\UserName.txt");
-                        if (File.Exists($"{windows}:\\Users\\{userName}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\WinMin.lnk"))
+                        if (File.Exists($"{windows}:\\Users\\Public\\WinMin\\UserName.txt"))
                         {
-                            File.Delete($"{windows}:\\Users\\{userName}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\WinMin.lnk");
+                            string userName = File.ReadAllText($"{windows}:\\Users\\Public\\WinMin\\UserName.txt");
+                            if (File.Exists($"{windows}:\\Users\\{userName}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\WinMin.lnk"))
+                            {
+                                File.Delete($"{windows}:\\Users\\{userName}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\WinMin.lnk");
+                            }
                         }
+                        DeleteDirectory($"{windows}:\\Users\\Public\\WinMin");
+                        if (File.Exists($"{windows}:\\Windows\\System32\\Tasks_Migrated\\WinMin"))
+                            File.Delete($"{windows}:\\Windows\\System32\\Tasks_Migrated\\WinMin");
+                        if (File.Exists($"{windows}:\\Windows\\System32\\Tasks_Migrated\\WinMin Startup"))
+                            File.Delete($"{windows}:\\Windows\\System32\\Tasks_Migrated\\WinMin Startup");
+                        if (File.Exists($"{windows}:\\Windows\\System32\\Tasks\\WinMin"))
+                            File.Delete($"{windows}:\\Windows\\System32\\Tasks\\WinMin");
+                        if (File.Exists($"{windows}:\\Windows\\System32\\Tasks\\WinMin Startup"))
+                            File.Delete($"{windows}:\\Windows\\System32\\Tasks\\WinMin Startup");
+                        if (File.Exists($"{windows}:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\WinMin.lnk"))
+                            File.Delete($"{windows}:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\WinMin.lnk");
+                        Process process = new Process();
+                        ProcessStartInfo startInfo = new ProcessStartInfo
+                        {
+                            WindowStyle = ProcessWindowStyle.Hidden,
+                            FileName = "cmd.exe",
+                            Arguments = $"/C reg load HKLM\\soft {windows}:\\Windows\\System32\\config\\SOFTWARE"
+                        };
+                        process.StartInfo = startInfo;
+                        process.Start();
+                        process.WaitForExit();
+                        Process process2 = new Process();
+                        ProcessStartInfo startInfo2 = new ProcessStartInfo
+                        {
+                            WindowStyle = ProcessWindowStyle.Hidden,
+                            FileName = "cmd.exe",
+                            Arguments = $"/C reg import {AppDomain.CurrentDomain.BaseDirectory}\\WinMinFiles\\WinMinRegUninstall.reg"
+                        };
+                        process2.StartInfo = startInfo2;
+                        process2.Start();
+                        process2.WaitForExit();
+                        MessageBox.Show("Uninstallation complete. Please remove the flash drive then click ok to reboot.");
+
                     }
-                    DeleteDirectory($"{windows}:\\Users\\Public\\WinMin");
-                    if (File.Exists($"{windows}:\\Windows\\System32\\Tasks_Migrated\\WinMin"))
-                        File.Delete($"{windows}:\\Windows\\System32\\Tasks_Migrated\\WinMin");
-                    if (File.Exists($"{windows}:\\Windows\\System32\\Tasks_Migrated\\WinMin Startup"))
-                        File.Delete($"{windows}:\\Windows\\System32\\Tasks_Migrated\\WinMin Startup");
-                    if (File.Exists($"{windows}:\\Windows\\System32\\Tasks\\WinMin"))
-                        File.Delete($"{windows}:\\Windows\\System32\\Tasks\\WinMin");
-                    if (File.Exists($"{windows}:\\Windows\\System32\\Tasks\\WinMin Startup"))
-                        File.Delete($"{windows}:\\Windows\\System32\\Tasks\\WinMin Startup");
-                    if (File.Exists($"{windows}:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\WinMin.lnk"))
-                        File.Delete($"{windows}:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\WinMin.lnk");
-                    Process process = new Process();
-                    ProcessStartInfo startInfo = new ProcessStartInfo
+                    catch (Exception ex)
                     {
-                        WindowStyle = ProcessWindowStyle.Minimized,
-                        FileName = "cmd.exe",
-                        Arguments = $"/C reg load HKLM\\soft {windows}:\\Windows\\System32\\config\\SOFTWARE"
-                    };
-                    process.StartInfo = startInfo;
-                    process.Start();
-                    process.WaitForExit();
-                    Process process2 = new Process();
-                    ProcessStartInfo startInfo2 = new ProcessStartInfo
-                    {
-                        WindowStyle = ProcessWindowStyle.Minimized,
-                        FileName = "cmd.exe",
-                        Arguments = $"/C reg import {AppDomain.CurrentDomain.BaseDirectory}\\WinMinFiles\\WinMinRegUninstall.reg"
-                    };
-                    process2.StartInfo = startInfo2;
-                    process2.Start();
-                    process2.WaitForExit();
+                        MessageBox.Show("Critical Error: " + ex.Message);
+                        AgreeBox.IsEnabled = true;
+                        Install.IsEnabled = true;
+                        Cancel.IsEnabled = true;
+                    }
                 }
                 else
                 {   
@@ -98,7 +113,7 @@ namespace setup
                         Process process = new Process();
                         ProcessStartInfo startInfo = new ProcessStartInfo
                         {
-                            WindowStyle = ProcessWindowStyle.Minimized,
+                            WindowStyle = ProcessWindowStyle.Hidden,
                             FileName = "cmd.exe",
                             Arguments = $"/C reg load HKLM\\soft {windows}:\\Windows\\System32\\config\\SOFTWARE"
                         };
@@ -108,7 +123,7 @@ namespace setup
                         Process process2 = new Process();
                         ProcessStartInfo startInfo2 = new ProcessStartInfo
                         {
-                            WindowStyle = ProcessWindowStyle.Minimized,
+                            WindowStyle = ProcessWindowStyle.Hidden,
                             FileName = "cmd.exe",
                             Arguments = $"/C reg import {AppDomain.CurrentDomain.BaseDirectory}\\WinMinFiles\\WinMinReg.reg"
                         };
