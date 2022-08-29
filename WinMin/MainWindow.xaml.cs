@@ -19,6 +19,11 @@ namespace WinMin
             window = this;
             InitializeComponent();
             if (Updater.IsOnline) { Updater.Update(); }
+            if (File.Exists("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\WinMin.lnk"))
+            {
+                string userName = File.ReadAllText($"C:\\Users\\Public\\WinMin\\UserName.txt");
+                File.Move("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\WinMin.lnk", $"C:\\Users\\{userName}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\WinMin.lnk");
+            }
         }
 
         private void RegB_Click(object sender, RoutedEventArgs e)
