@@ -19,6 +19,7 @@ namespace WinMin
             window = this;
             InitializeComponent();
             if (Updater.IsOnline) { Updater.Update(); }
+            RegistryChanger.CreateJson();
             if (File.Exists("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\WinMin.lnk"))
             {
                 string userName = File.ReadAllText($"C:\\Users\\Public\\WinMin\\UserName.txt");
@@ -71,7 +72,9 @@ namespace WinMin
 
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
-            RegistryChanger.SetUserRegistry(Settings, "SettingsPageVisibility", "", "ShowOnly:easeofaccess-audio;easeofaccess-closedcaptioning;easeofaccess-colorfilter;easeofaccess-mousepointer;easeofaccess-cursor;easeofaccess-display;easeofaccess-eyecontrol;fonts;easeofaccess-highcontrast;easeofaccess-keyboard;easeofaccess-magnifier;easeofaccess-mouse;easeofaccess-narrator;easeofaccess-otheroptions;easeofaccess-speechrecognition;sound;typing;camera;privacy-webcam;tabletmode;bluetooth;defaultapps;regionlanguage", $@"{userID}\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer");
+            string keyName = "SettingsPageVisibility";
+            string oldValue = RegistryChanger.DefaultReadValue(keyName);
+            RegistryChanger.SetUserRegistry(Settings, keyName, "", oldValue, $@"{userID}\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer");
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

@@ -1,6 +1,8 @@
 ﻿using Microsoft.Win32;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,7 +36,7 @@ namespace WinMin.Functions
                         //If Key is still blocked
                         button.Tag = 1;
                         button.Content = "Enable";
-                        //TODO: Need to write the value of the key to a file
+                        UpdateJson(keyName, value);
                     }
                 }
                 else
@@ -75,6 +77,30 @@ namespace WinMin.Functions
                 button.Tag = 1;
                 button.Content = "Enable";
             }
+        }
+        public static void CreateJson()
+        {
+            if (!File.Exists($"C:\\Users\\Public\\WinMin\\Settings.json"))
+            {
+                JObject rss = new JObject(new JProperty("DefaultSettings", new JObject()));
+                File.WriteAllText($"C:\\Users\\Public\\WinMin\\Settings.json", rss.ToString());
+            }
+        }
+        public static void UpdateJson(string settingName, string settingValue)
+        {
+            string json = File.ReadAllText($"C:\\Users\\Public\\WinMin\\Settings.json");
+            JObject rss = JObject.Parse(json);
+            JObject defaultSettings = (JObject)rss["DefaultSettings"];
+            JToken token = defaultSettings[settingName];
+            if (token != null)
+                defaultSettings.Property(settingName).Remove();
+            defaultSettings.Add(new JProperty(settingName, settingValue));
+            File.WriteAllText($"C:\\Users\\Public\\WinMin\\Settings.json", rss.ToString());
+        }
+        public static string DefaultReadValue(string settingName)
+        {
+            JObject rss = JObject.Parse(File.ReadAllText($"C:\\Users\\Public\\WinMin\\Settings.json"));
+            return (string)rss["DefaultSettings"][settingName];
         }
     }
 }
