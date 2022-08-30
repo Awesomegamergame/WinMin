@@ -25,9 +25,11 @@ namespace WinMin.Functions
                 {
                     //Key Exists
                     value = key.GetValue(keyName).ToString();
-                    if (string.IsNullOrWhiteSpace(value))
+                    if (string.IsNullOrWhiteSpace(value) || value.Equals("0"))
                     {
                         //If Key is unblocked from WinMin
+                        if (value.Equals("0"))
+                            UpdateJson(keyName, "1");
                         button.Tag = 0;
                         button.Content = "Disable";
                     }
