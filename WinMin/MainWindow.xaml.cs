@@ -12,12 +12,20 @@ namespace WinMin
     public partial class MainWindow : Window
     {
         public static MainWindow window;
+        readonly static string userID = File.ReadAllText(@"C:\Users\Public\WinMin\UserID.txt");
+        readonly static string explorerKey = $@"{userID}\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer";
         public MainWindow()
         {
             Updater.CheckInternetState();
             window = this;
             InitializeComponent();
             if (Updater.IsOnline) { Updater.Update(); }
+            RegistryChanger.CreateJson();
+            if (File.Exists("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\WinMin.lnk"))
+            {
+                string userName = File.ReadAllText($"C:\\Users\\Public\\WinMin\\UserName.txt");
+                File.Move("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\WinMin.lnk", $"C:\\Users\\{userName}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\WinMin.lnk");
+            }
         }
 
         private void RegB_Click(object sender, RoutedEventArgs e)
@@ -63,76 +71,23 @@ namespace WinMin
         }
         #endregion
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            RegistryChanger.LoadUserRegistry(Settings, "SettingsPageVisibility", explorerKey);
+            RegistryChanger.LoadUserRegistry(RightClick, "NoViewContextMenu", explorerKey);
+        }
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
-            int button = (int)(sender as Button).Tag;
-            if (button == 1)
-            {
-                string userID = File.ReadAllText(@"C:\Users\Public\WinMin\UserID.txt");
-                RegistryKey key = Registry.Users.OpenSubKey($@"{userID}\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer", true);
-
-                if (key != null)
-                {
-                    key.SetValue("SettingsPageVisibility", "");
-                    key.Close();
-                }
-                Settings.Tag = 0;
-                Settings.Content = "Disable";
-            }
-            else
-            {
-                string userID = File.ReadAllText(@"C:\Users\Public\WinMin\UserID.txt");
-                RegistryKey key = Registry.Users.OpenSubKey($@"{userID}\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer", true);
-
-                if (key != null)
-                {
-                    key.SetValue("SettingsPageVisibility", "ShowOnly:easeofaccess-audio;easeofaccess-closedcaptioning;easeofaccess-colorfilter;easeofaccess-mousepointer;easeofaccess-cursor;easeofaccess-display;easeofaccess-eyecontrol;fonts;easeofaccess-highcontrast;easeofaccess-keyboard;easeofaccess-magnifier;easeofaccess-mouse;easeofaccess-narrator;easeofaccess-otheroptions;easeofaccess-speechrecognition;sound;typing;camera;privacy-webcam;tabletmode;bluetooth;defaultapps;regionlanguage");
-                    key.Close();
-                }
-                Settings.Tag = 1;
-                Settings.Content = "Enable";
-            }
+            string keyName = "SettingsPageVisibility";
+            string oldValue = RegistryChanger.DefaultReadValue(keyName);
+            RegistryChanger.SetUserRegistry(Settings, keyName, "", oldValue, explorerKey, RegistryValueKind.String);
         }
 
-        private void Settings_Initialized(object sender, EventArgs e)
+        private void RightClick_Click(object sender, RoutedEventArgs e)
         {
-            Settings.Tag = 1;
-            string userID = File.ReadAllText(@"C:\Users\Public\WinMin\UserID.txt");
-            RegistryKey key = Registry.Users.OpenSubKey($@"{userID}\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer", true);
-
-            string value;
-            if (key != null)
-            {
-                //Key location exists
-                if (key.GetValueNames().Contains("SettingsPageVisibility"))
-                {
-                    //Key Exists
-                    value = key.GetValue("SettingsPageVisibility").ToString();
-                    if (string.IsNullOrWhiteSpace(value))
-                    {
-                        //If Key is unblocked from WinMin
-                        Settings.Tag = 0;
-                        Settings.Content = "Disable";
-                    }
-                    else
-                    {
-                        //If Key is still blocked
-                        Settings.Tag = 1;
-                        Settings.Content = "Enable";
-                    }
-                }
-                else
-                {
-                    //Key doesnt Exist
-                    Settings.IsEnabled = false;
-                    Settings.Content = "Not Blocked";
-                }
-            }
-            else
-            {
-                //Key Location doesnt exists
-                Settings.IsEnabled = false;
-            }
+            string keyName = "NoViewContextMenu";
+            string oldValue = RegistryChanger.DefaultReadValue(keyName);
+            RegistryChanger.SetUserRegistry(RightClick, keyName, "0", oldValue, explorerKey, RegistryValueKind.DWord);
         }
     }
 }

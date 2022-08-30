@@ -28,6 +28,8 @@ namespace WinMin_Launcher
         {
             if (!File.Exists($"{rootPath}\\UserID.txt"))
                 File.WriteAllText($"{rootPath}\\UserID.txt", WindowsIdentity.GetCurrent().User.Value);
+            if (!File.Exists($"{rootPath}\\UserName.txt"))
+                File.WriteAllText($"{rootPath}\\UserName.txt", Environment.UserName);
 
             if (File.Exists($"{rootPath}\\Admin"))
             {
@@ -38,7 +40,7 @@ namespace WinMin_Launcher
                 }
                 catch(Exception)
                 {
-                    MessageBox.Show("You didn't yes on the uac prompt WinMin loading has failed");
+                    MessageBox.Show("You didn't hit yes on the uac prompt WinMin loading has failed");
                 }
                 Dispatcher.Invoke(() =>
                 {

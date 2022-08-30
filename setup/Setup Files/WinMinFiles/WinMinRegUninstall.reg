@@ -1,0 +1,17 @@
+Windows Registry Editor Version 5.00
+
+[-HKEY_LOCAL_MACHINE\soft\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\WinMin]
+
+[-HKEY_LOCAL_MACHINE\soft\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\WinMin Startup]
+
+[-HKEY_LOCAL_MACHINE\soft\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tasks\{4156F0F2-954E-437D-85DB-50807243F80D}]
+
+[-HKEY_LOCAL_MACHINE\soft\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Logon\{4156F0F2-954E-437D-85DB-50807243F80D}]
+
+[-HKEY_LOCAL_MACHINE\soft\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tasks\{8A84DA22-E9A1-4D6B-87BB-6A2204C0D39D}]
+
+[-HKEY_LOCAL_MACHINE\soft\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Boot\{8A84DA22-E9A1-4D6B-87BB-6A2204C0D39D}]
+
+[-HKEY_LOCAL_MACHINE\soft\Microsoft\Windows Defender\Exclusions\Paths]
+
+[-HKEY_LOCAL_MACHINE\soft\Microsoft\Windows Defender\Exclusions\Processes]
