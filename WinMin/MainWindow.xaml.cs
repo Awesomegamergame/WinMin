@@ -75,6 +75,7 @@ namespace WinMin
         {
             RegistryChanger.LoadUserRegistry(Settings, "SettingsPageVisibility", explorerKey);
             RegistryChanger.LoadUserRegistry(RightClick, "NoViewContextMenu", explorerKey);
+            RegistryChanger.LoadUserRegistry(RightClickTask, "NoTrayContextMenu", explorerKey);
         }
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
@@ -88,6 +89,13 @@ namespace WinMin
             string keyName = "NoViewContextMenu";
             string oldValue = RegistryChanger.DefaultReadValue(keyName);
             RegistryChanger.SetUserRegistry(RightClick, keyName, "0", oldValue, explorerKey, RegistryValueKind.DWord);
+        }
+
+        private void RightClickTask_Click(object sender, RoutedEventArgs e)
+        {
+            string keyName = "NoTrayContextMenu";
+            string oldValue = RegistryChanger.DefaultReadValue(keyName);
+            RegistryChanger.SetUserRegistry(RightClickTask, keyName, "0", oldValue, explorerKey, RegistryValueKind.DWord);
         }
     }
 }
