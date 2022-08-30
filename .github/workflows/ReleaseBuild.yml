@@ -54,13 +54,8 @@ jobs:
         files: ./setup/WinMin
         dest: ./setup/WinMin.zip
         
-    - name: Make iso
-      run: ./IsoMaker/cdbxpcmd.exe --burn-data -folder:./setup/WinMin -iso:./WinMin.iso -format:iso
-        
     - name: Release
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
       with:
-        files: |
-          ./WinMin.iso
-          ./setup/WinMin.zip
+        files: ./setup/WinMin.zip
