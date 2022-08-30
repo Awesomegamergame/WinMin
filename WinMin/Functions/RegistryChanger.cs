@@ -53,7 +53,7 @@ namespace WinMin.Functions
             }
         }
         
-        public static void SetUserRegistry(Button button, string keyName, string newValue, string oldValue, string keyPath)
+        public static void SetUserRegistry(Button button, string keyName, string newValue, string oldValue, string keyPath, RegistryValueKind valueKind)
         {
             RegistryKey key = Registry.Users.OpenSubKey(keyPath, true);
             int buttonTag = (int)button.Tag;
@@ -61,7 +61,7 @@ namespace WinMin.Functions
             {
                 if (key != null)
                 {
-                    key.SetValue(keyName, newValue);
+                    key.SetValue(keyName, newValue, valueKind);
                     key.Close();
                 }
                 button.Tag = 0;
@@ -71,7 +71,7 @@ namespace WinMin.Functions
             {
                 if (key != null)
                 {
-                    key.SetValue(keyName, oldValue);
+                    key.SetValue(keyName, oldValue, valueKind);
                     key.Close();
                 }
                 button.Tag = 1;

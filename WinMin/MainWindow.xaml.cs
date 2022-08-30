@@ -12,7 +12,8 @@ namespace WinMin
     public partial class MainWindow : Window
     {
         public static MainWindow window;
-        readonly string userID = File.ReadAllText(@"C:\Users\Public\WinMin\UserID.txt");
+        readonly static string userID = File.ReadAllText(@"C:\Users\Public\WinMin\UserID.txt");
+        readonly static string explorerKey = $@"{userID}\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer";
         public MainWindow()
         {
             Updater.CheckInternetState();
@@ -70,16 +71,23 @@ namespace WinMin
         }
         #endregion
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            RegistryChanger.LoadUserRegistry(Settings, "SettingsPageVisibility", explorerKey);
+            RegistryChanger.LoadUserRegistry(RightClick, "NoViewContextMenu", explorerKey);
+        }
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
             string keyName = "SettingsPageVisibility";
             string oldValue = RegistryChanger.DefaultReadValue(keyName);
-            RegistryChanger.SetUserRegistry(Settings, keyName, "", oldValue, $@"{userID}\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer");
+            RegistryChanger.SetUserRegistry(Settings, keyName, "", oldValue, explorerKey, RegistryValueKind.String);
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void RightClick_Click(object sender, RoutedEventArgs e)
         {
-            RegistryChanger.LoadUserRegistry(Settings, "SettingsPageVisibility", $@"{userID}\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer");
+            string keyName = "NoViewContextMenu";
+            string oldValue = RegistryChanger.DefaultReadValue(keyName);
+            RegistryChanger.SetUserRegistry(RightClick, keyName, "0", oldValue, explorerKey, RegistryValueKind.DWord);
         }
     }
 }
