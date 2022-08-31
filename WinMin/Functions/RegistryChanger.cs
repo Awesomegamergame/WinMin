@@ -29,7 +29,7 @@ namespace WinMin.Functions
                     {
                         //If Key is unblocked from WinMin
                         if (value.Equals("0"))
-                            UpdateJson(keyName, "1", true);
+                            UpdateJson(keyName, "1");
                         button.Tag = 0;
                         button.Content = "Disable";
                     }
@@ -38,7 +38,7 @@ namespace WinMin.Functions
                         //If Key is still blocked
                         button.Tag = 1;
                         button.Content = "Enable";
-                        UpdateJson(keyName, value, false);
+                        UpdateJson(keyName, value);
                     }
                 }
                 else
@@ -88,7 +88,7 @@ namespace WinMin.Functions
                 File.WriteAllText($"C:\\Users\\Public\\WinMin\\Settings.json", rss.ToString());
             }
         }
-        public static void UpdateJson(string settingName, string settingValue, bool active)
+        public static void UpdateJson(string settingName, string settingValue)
         {
             string json = File.ReadAllText($"C:\\Users\\Public\\WinMin\\Settings.json");
             JObject rss = JObject.Parse(json);
@@ -96,7 +96,7 @@ namespace WinMin.Functions
             JToken token = defaultSettings[settingName];
             if (token != null)
                 defaultSettings.Property(settingName).Remove();
-            defaultSettings.Add(new JProperty(settingName, new JObject(new JProperty("dvalue", settingValue), new JProperty("value", active))));
+            defaultSettings.Add(new JProperty(settingName, settingValue));
             File.WriteAllText($"C:\\Users\\Public\\WinMin\\Settings.json", rss.ToString());
         }
         public static string DefaultReadValue(string settingName)
