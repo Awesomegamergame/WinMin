@@ -14,6 +14,7 @@ namespace WinMin
         public static MainWindow window;
         readonly static string userID = File.ReadAllText(@"C:\Users\Public\WinMin\UserID.txt");
         readonly static string explorerKey = $@"{userID}\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer";
+        readonly static string firefoxKey = $@"SOFTWARE\Policies\Mozilla\Firefox\InstallAddonsPermission";
         public MainWindow()
         {
             Updater.CheckInternetState();
@@ -76,6 +77,7 @@ namespace WinMin
             RegistryChanger.LoadUserRegistry(Settings, "SettingsPageVisibility", explorerKey);
             RegistryChanger.LoadUserRegistry(RightClick, "NoViewContextMenu", explorerKey);
             RegistryChanger.LoadUserRegistry(RightClickTask, "NoTrayContextMenu", explorerKey);
+            RegistryChanger.LoadSystemRegistryBackwards(Firefox, "Default", firefoxKey);
         }
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
@@ -96,6 +98,13 @@ namespace WinMin
             string keyName = "NoTrayContextMenu";
             string oldValue = RegistryChanger.DefaultReadValue(keyName);
             RegistryChanger.SetUserRegistry(RightClickTask, keyName, "0", oldValue, explorerKey, RegistryValueKind.DWord);
+        }
+
+        private void Firefox_Click(object sender, RoutedEventArgs e)
+        {
+            string keyName = "Default";
+            string oldValue = RegistryChanger.DefaultReadValue(keyName);
+            RegistryChanger.SetSystemRegistryBackwards(Firefox, keyName, "1", oldValue, firefoxKey, RegistryValueKind.DWord);
         }
     }
 }
