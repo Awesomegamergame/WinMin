@@ -38,9 +38,21 @@ namespace WinMin
             Process.Start("cmd.exe");
         }
 
+        private void ProgramRun_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.OpenFileDialog openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+
+            openFileDialog1.InitialDirectory = "C:\\";
+
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                var path = openFileDialog1.FileName;
+                Process.Start(path);
+            }
+        }
 
         #region Updates
-    private void No_Click(object sender, RoutedEventArgs e)
+        private void No_Click(object sender, RoutedEventArgs e)
         {
             UpdateScreen.Visibility = Visibility.Collapsed;
             Yes.Visibility = Visibility.Collapsed;
