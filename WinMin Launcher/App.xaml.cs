@@ -20,7 +20,7 @@ namespace WinMin_Launcher
                     //                 Right now well just shutdown the app
                     Current.Shutdown();
                 }
-                else
+                else if (args[1].Equals("admin"))
                 {
                     Process process2 = new Process();
                     ProcessStartInfo startInfo2 = new ProcessStartInfo
@@ -42,6 +42,12 @@ namespace WinMin_Launcher
                     process.StartInfo = startInfo;
                     process.Start();
                     process.WaitForExit();
+                    Current.Shutdown();
+                }
+                else
+                {
+                    //TODO: add drag and drop onto WinMin Icon and with open with button in right click menu
+                    MessageBox.Show("Open with isn't implemented yet");
                     Current.Shutdown();
                 }
             }
