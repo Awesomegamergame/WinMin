@@ -2,6 +2,8 @@
 [![Stable Build](https://github.com/awesomegamergame/WinMin/actions/workflows/ReleaseBuild.yml/badge.svg)](https://github.com/awesomegamergame/WinMin/releases)
 [![Bleeding Edge Build](https://github.com/awesomegamergame/WinMin/actions/workflows/DebugBuild.yml/badge.svg)](https://github.com/awesomegamergame/WinMin/actions/workflows/DebugBuild.yml)
 
+![WinMIn Icon](WinMin/WinMin.ico)
+
 This is a work in progress multistage app that will grant admin very easily just will be a pain for me to code.
 
 This program is currently in beta but is safe enough to run it on a computer without something bad happening.
