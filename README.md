@@ -16,6 +16,6 @@ Current things that WinMin Does
 5. Allows you to run any program with admin through the WinMin interface
 
 Things to add in the future
-1. Reg key loading, as well as having a repo to hold the keys and allow people to apply those keys with a key of the button automatically
+1. Reg key loading, as well as having a repo to hold the keys and allow people to apply those keys with a click of the button automatically
 2. Finish system level registry key changing at system startup before the user logs in.
 3. Be able to drag an app onto the WinMin icon to launch the app with administrator permissions or have some right click menu for it.
