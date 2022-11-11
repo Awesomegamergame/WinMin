@@ -6,6 +6,8 @@ using System.Windows;
 using WinMin.Functions;
 using System.Windows.Controls;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace WinMin
 {
@@ -14,6 +16,11 @@ namespace WinMin
         public static MainWindow window;
         readonly static string userID = File.ReadAllText(@"C:\Users\Public\WinMin\UserID.txt");
         readonly static string explorerKey = $@"{userID}\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer";
+        readonly string rootPath = @"C:\Users\Public\WinMin";
+
+        [DllImport("shell32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern void SHChangeNotify(uint wEventId, uint uFlags, IntPtr dwItem1, IntPtr dwItem2);
+
         public MainWindow()
         {
             Updater.CheckInternetState();
@@ -25,6 +32,30 @@ namespace WinMin
             {
                 string userName = File.ReadAllText($"C:\\Users\\Public\\WinMin\\UserName.txt");
                 File.Move("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\WinMin.lnk", $"C:\\Users\\{userName}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\WinMin.lnk");
+            }
+            if (!File.Exists($"{rootPath}\\WMPatch.reg"))
+            {
+                Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("WinMin.WMPatch.reg");
+                FileStream fileStream = new FileStream($"{rootPath}\\WMPatch.reg", FileMode.CreateNew);
+                for (int i = 0; i < stream.Length; i++)
+                    fileStream.WriteByte((byte)stream.ReadByte());
+                fileStream.Close();
+                string text = File.ReadAllText($"{rootPath}\\WMPatch.reg");
+                text = text.Replace("Name", userID);
+                File.WriteAllText($"{rootPath}\\WMPatch.reg", text);
+
+                //Load the registry key
+                Process process = new Process();
+                ProcessStartInfo startInfo = new ProcessStartInfo
+                {
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                    FileName = "cmd.exe",
+                    Arguments = $"/C reg import C:\\Users\\Public\\WinMin\\WMPatch.reg"
+                };
+                process.StartInfo = startInfo;
+                process.Start();
+                process.WaitForExit();
+                SHChangeNotify(0x08000000, 0x0000, IntPtr.Zero, IntPtr.Zero);
             }
         }
 

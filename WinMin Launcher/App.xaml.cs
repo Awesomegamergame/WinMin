@@ -47,7 +47,15 @@ namespace WinMin_Launcher
                 else
                 {
                     //TODO: add drag and drop onto WinMin Icon and with open with button in right click menu
-                    MessageBox.Show("Open with isn't implemented yet");
+                    //TODO: add support to launch and run the wmpatch
+                    if (args[1].Substring(args[1].Length - 7).Equals("wmpatch"))
+                    {
+                        MessageBox.Show("Running wmpatch files isn't supported yet");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Open with isn't implemented yet");
+                    }
                     Current.Shutdown();
                 }
             }

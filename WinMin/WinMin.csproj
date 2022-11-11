@@ -106,6 +106,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Webdata\WinMin Temp.zip" />
+    <EmbeddedResource Include="WMPatch.reg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
