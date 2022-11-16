@@ -71,9 +71,11 @@ namespace WinMin
 
         private void ProgramRun_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.OpenFileDialog openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-
-            openFileDialog1.InitialDirectory = "C:\\";
+            System.Windows.Forms.OpenFileDialog openFileDialog1 = new System.Windows.Forms.OpenFileDialog
+            {
+                InitialDirectory = "C:\\",
+                Filter = "All files (*.*)|*.*"
+            };
 
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -139,6 +141,31 @@ namespace WinMin
             string keyName = "NoTrayContextMenu";
             string oldValue = RegistryChanger.DefaultReadValue(keyName);
             RegistryChanger.SetUserRegistry(RightClickTask, keyName, "0", oldValue, explorerKey, RegistryValueKind.DWord);
+        }
+
+        private void RegL_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.OpenFileDialog openFileDialog1 = new System.Windows.Forms.OpenFileDialog
+            {
+                InitialDirectory = "C:\\",
+                Filter = "Registry files (*.reg)|*.reg"
+            };
+
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                var path = openFileDialog1.FileName;
+                Process process = new Process();
+                ProcessStartInfo startInfo = new ProcessStartInfo
+                {
+                    WindowStyle = ProcessWindowStyle.Normal,
+                    FileName = "cmd.exe",
+                    Arguments = $"/C reg import \"{path}\""
+                };
+                process.StartInfo = startInfo;
+                process.Start();
+                process.WaitForExit();
+                MessageBox.Show("Registry file loaded");
+            }
         }
     }
 }

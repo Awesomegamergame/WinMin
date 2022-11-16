@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Windows;
 using System.Diagnostics;
+using System.IO;
+using System.Security.Principal;
 
 namespace WinMin_Launcher
 {
     public partial class App : Application
     {
+        public string rootPath = @"C:\Users\Public\WinMin";
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             string[] args = Environment.GetCommandLineArgs();
@@ -46,7 +49,6 @@ namespace WinMin_Launcher
                 }
                 else
                 {
-                    //TODO: add drag and drop onto WinMin Icon and with open with button in right click menu
                     //TODO: add support to launch and run the wmpatch
                     if (args[1].Substring(args[1].Length - 7).Equals("wmpatch"))
                     {
@@ -54,9 +56,10 @@ namespace WinMin_Launcher
                     }
                     else
                     {
-                        MessageBox.Show("Open with isn't implemented yet");
+                        File.WriteAllText($"{rootPath}\\Program.txt", args[1]);
                     }
-                    Current.Shutdown();
+                    MainWindow window = new MainWindow();
+                    window.Show();
                 }
             }
             else
