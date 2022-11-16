@@ -40,6 +40,10 @@ namespace WinMin_Launcher
                 }
                 catch(Exception)
                 {
+                    if (File.Exists($"{rootPath}\\Program.txt"))
+                    {
+                        File.Delete($"{rootPath}\\Program.txt");
+                    }
                     MessageBox.Show("You didn't hit yes on the uac prompt WinMin loading has failed");
                 }
                 Dispatcher.Invoke(() =>
