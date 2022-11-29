@@ -5,13 +5,14 @@ using System.IO;
 using System.Security.Principal;
 using WinMin.Functions;
 using Newtonsoft.Json;
+using System.Management;
 
 namespace WinMin_Launcher
 {
     public partial class App : Application
     {
         public readonly string rootPath = @"C:\Users\Public\WinMin";
-        public readonly string patchPath = "C:\\Users\\Public\\WinMin\\Patches";
+        public readonly static string patchPath = "C:\\Users\\Public\\WinMin\\Patches";
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             string[] args = Environment.GetCommandLineArgs();
@@ -19,35 +20,20 @@ namespace WinMin_Launcher
             {
                 if (args[1].Equals("startup"))
                 {
-                    
+                    var interval = new TimeSpan(0, 0, 1);
+                    const string isWin32Process = "TargetInstance isa \"Win32_Process\"";
+
+                    WqlEventQuery stopQuery
+                        = new WqlEventQuery("__InstanceDeletionEvent", interval, isWin32Process);
+                    var _stopWatcher = new ManagementEventWatcher(stopQuery);
+                    _stopWatcher.Start();
+                    _stopWatcher.EventArrived += OnStopEventArrived;
+
                     /*
                      * The registry loading works for every plugin that is installed but it import the keys before the group policy
                      * editer changes the value so the value get changed back to default so i either need to delay loading untill
                      * the group policy editer changes the keys are change them and detect if they get changed back
                      */
-
-                    foreach(string directory in Directory.GetDirectories($"{patchPath}\\Installed\\"))
-                    {
-                        string json = File.ReadAllText($"{directory}\\manifest.json");
-                        WMManifest manifest = JsonConvert.DeserializeObject<WMManifest>(json);
-                        foreach (string keyPath in manifest.patchFiles)
-                        {
-                            Process process = new Process();
-                            ProcessStartInfo startInfo = new ProcessStartInfo
-                            {
-                                WindowStyle = ProcessWindowStyle.Hidden,
-                                FileName = "cmd.exe",
-                                Arguments = $"/C reg import \"{patchPath}\\Installed\\{manifest.name}\\{keyPath}\""
-                            };
-                            process.StartInfo = startInfo;
-                            process.Start();
-                            process.WaitForExit();
-                        }
-                    }
-
-                    
-
-                    Current.Shutdown();
                 }
                 else if (args[1].Equals("admin"))
                 {
@@ -92,6 +78,38 @@ namespace WinMin_Launcher
             {
                 MainWindow window = new MainWindow();
                 window.Show();
+            }
+        }
+        static void OnStopEventArrived(object sender, EventArrivedEventArgs e)
+        {
+            var o = (ManagementBaseObject)e.NewEvent["TargetInstance"];
+            string name = (string)o["Name"];
+            if (name.Equals("gpscript.exe"))
+            {
+                foreach (string directory in Directory.GetDirectories($"{patchPath}\\Installed\\"))
+                {
+                    string json = File.ReadAllText($"{directory}\\manifest.json");
+                    WMManifest manifest = JsonConvert.DeserializeObject<WMManifest>(json);
+                    foreach (string keyPath in manifest.patchFiles)
+                    {
+                        Process process = new Process();
+                        ProcessStartInfo startInfo = new ProcessStartInfo
+                        {
+                            WindowStyle = ProcessWindowStyle.Hidden,
+                            FileName = "cmd.exe",
+                            Arguments = $"/C reg import \"{patchPath}\\Installed\\{manifest.name}\\{keyPath}\""
+                        };
+                        process.StartInfo = startInfo;
+                        process.Start();
+                        process.WaitForExit();
+                    }
+                }
+                Current.Shutdown();
+            }
+            if (name.Equals("LogonUI.exe"))
+            {
+                //We shutdown just incase gpscript doesnt happen
+                Current.Shutdown();
             }
         }
     }
