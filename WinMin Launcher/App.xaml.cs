@@ -28,12 +28,6 @@ namespace WinMin_Launcher
                     var _stopWatcher = new ManagementEventWatcher(stopQuery);
                     _stopWatcher.Start();
                     _stopWatcher.EventArrived += OnStopEventArrived;
-
-                    /*
-                     * The registry loading works for every plugin that is installed but it import the keys before the group policy
-                     * editer changes the value so the value get changed back to default so i either need to delay loading untill
-                     * the group policy editer changes the keys are change them and detect if they get changed back
-                     */
                 }
                 else if (args[1].Equals("admin"))
                 {
