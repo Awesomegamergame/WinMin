@@ -6,6 +6,7 @@ using System.Security.Principal;
 using WinMin.Functions;
 using Newtonsoft.Json;
 using System.Management;
+using System.Windows.Threading;
 
 namespace WinMin_Launcher
 {
@@ -23,11 +24,10 @@ namespace WinMin_Launcher
                     var interval = new TimeSpan(0, 0, 1);
                     const string isWin32Process = "TargetInstance isa \"Win32_Process\"";
 
-                    WqlEventQuery stopQuery
-                        = new WqlEventQuery("__InstanceDeletionEvent", interval, isWin32Process);
+                    WqlEventQuery stopQuery = new WqlEventQuery("__InstanceDeletionEvent", interval, isWin32Process);
                     var _stopWatcher = new ManagementEventWatcher(stopQuery);
                     _stopWatcher.Start();
-                    _stopWatcher.EventArrived += OnStopEventArrived;
+                    _stopWatcher.EventArrived += OnStopEventArrived;                    
                 }
                 else if (args[1].Equals("admin"))
                 {
@@ -74,13 +74,14 @@ namespace WinMin_Launcher
                 window.Show();
             }
         }
-        static void OnStopEventArrived(object sender, EventArrivedEventArgs e)
+        
+        void OnStopEventArrived(object sender, EventArrivedEventArgs e)
         {
             var o = (ManagementBaseObject)e.NewEvent["TargetInstance"];
             string name = (string)o["Name"];
             if (name.Equals("gpscript.exe"))
             {
-                foreach (string directory in Directory.GetDirectories($"{patchPath}\\Installed\\"))
+                foreach (string directory in Directory.GetDirectories($"{patchPath}\\"))
                 {
                     string json = File.ReadAllText($"{directory}\\manifest.json");
                     WMManifest manifest = JsonConvert.DeserializeObject<WMManifest>(json);
@@ -91,20 +92,27 @@ namespace WinMin_Launcher
                         {
                             WindowStyle = ProcessWindowStyle.Hidden,
                             FileName = "cmd.exe",
-                            Arguments = $"/C reg import \"{patchPath}\\Installed\\{manifest.name}\\{keyPath}\""
+                            Arguments = $"/C reg import \"{patchPath}\\{manifest.name}\\{keyPath}\""
                         };
                         process.StartInfo = startInfo;
                         process.Start();
                         process.WaitForExit();
                     }
                 }
-                Current.Shutdown();
+                Dispatcher.Invoke(() =>
+                {
+                    Current.Shutdown();
+                });
             }
             if (name.Equals("LogonUI.exe"))
             {
                 //We shutdown just incase gpscript doesnt happen
-                Current.Shutdown();
+                Dispatcher.Invoke(() =>
+                {
+                    Current.Shutdown();
+                });
             }
         }
+        
     }
 }

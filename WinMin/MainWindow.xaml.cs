@@ -129,7 +129,6 @@ namespace WinMin
             PluginManager pluginManager = new PluginManager();
             //Loaded Installed Must Be Called First In The PluginManager Class
             pluginManager.LoadInstalled();
-            pluginManager.WMPatchInstaller();
         }
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
@@ -195,6 +194,11 @@ namespace WinMin
             IPatches.Visibility = Visibility.Visible;
             WMAvailable.Visibility = Visibility.Visible;
             WMInstalled.Visibility = Visibility.Visible;
+        }
+        private void WMPatchI_Click(object sender, RoutedEventArgs e)
+        {
+            PluginManager pluginManager = new PluginManager();
+            pluginManager.WMPatchInstaller();
         }
     }
 }

@@ -24,6 +24,9 @@
         <Button x:Name="ProgramRun" Content="Run Program" HorizontalAlignment="Left" Click="ProgramRun_Click" Margin="706,35,0,0" FontSize="16" VerticalAlignment="Top" Height="70" Width="105" Grid.Row="1"/>
         <Button x:Name="RegL" Content="Reg File" HorizontalAlignment="Left" Click="RegL_Click" Margin="706,38,0,0" FontSize="16" VerticalAlignment="Top" Height="70" Width="105"/>
         <Button x:Name="WMPatchB" Content="WM Patcher" HorizontalAlignment="Left" Click="WMPatchB_Click" Margin="576,260,0,0" FontSize="16" VerticalAlignment="Top" Height="69" Width="104" Grid.Row="1"/>
+        <Button x:Name="WMPatchI" HorizontalAlignment="Left" Click="WMPatchI_Click" Margin="576,150,0,0" FontSize="16" VerticalAlignment="Top" Height="69" Width="104" Grid.Row="1">
+            <TextBlock Text="Install a wmpatch file" TextWrapping="WrapWithOverflow" TextAlignment="Center"/>
+        </Button>
 
         <Image x:Name="PatchesMenu" Visibility="Collapsed" Source="Images/Background.jpg" Stretch="Fill" Margin="0,0,0,0" Grid.RowSpan="2"/>
         <Button x:Name="MenuButton" Visibility="Collapsed" Content="Main Menu" FontSize="11" Height="35" Width="100" Click="MenuButton_Click" HorizontalAlignment="Center" VerticalAlignment="Top"/>
@@ -42,7 +45,7 @@
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>
-        
+
         <ListBox x:Name="WMInstalled" Visibility="Collapsed" HorizontalAlignment="Right" Width="430" BorderThickness="0" ScrollViewer.CanContentScroll="False" Grid.RowSpan="2" Margin="0,38,0,0" HorizontalContentAlignment="Stretch" Background="#FF7F7F7F">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ListBoxItem}">

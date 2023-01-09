@@ -19,17 +19,15 @@ namespace WinMin.Functions
         public readonly string patchPath = "C:\\Users\\Public\\WinMin\\Patches";
         public void WMPatchInstaller()
         {
-            if (!Directory.Exists(patchPath))
+            System.Windows.Forms.OpenFileDialog openFileDialog1 = new System.Windows.Forms.OpenFileDialog
             {
-                Directory.CreateDirectory(patchPath);
-            }
-            if (!Directory.Exists($"{patchPath}\\Installed"))
+                InitialDirectory = "C:\\",
+                Filter = "WMPatch files (*.wmpatch)|*.wmpatch"
+            };
+
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                Directory.CreateDirectory($"{patchPath}\\Installed");
-            }
-            foreach (string file in Directory.GetFiles(patchPath))
-            {
-                ZipArchive archive = ZipFile.OpenRead(file);
+                ZipArchive archive = ZipFile.OpenRead(openFileDialog1.FileName);
                 var sample = archive.GetEntry("manifest.json");
                 Stream zipEntryStream = sample.Open();
                 StreamReader reader = new StreamReader(zipEntryStream);
@@ -37,32 +35,38 @@ namespace WinMin.Functions
                 WMManifest manifest = JsonConvert.DeserializeObject<WMManifest>(json);
                 if (manifest.supportedVersions.Contains(manifest.manifest))
                 {
-                    if (Directory.Exists($"{patchPath}\\Installed\\{manifest.name}"))
-                        DeleteDirectory($"{patchPath}\\Installed\\{manifest.name}");
-                    Directory.CreateDirectory($"{patchPath}\\Installed\\{manifest.name}");
-                    archive.ExtractToDirectory($"{patchPath}\\Installed\\{manifest.name}");
+                    bool exists = false;
+                    if (Directory.Exists($"{patchPath}\\{manifest.name}"))
+                    {
+                        exists = true;
+                        DeleteDirectory($"{patchPath}\\{manifest.name}");
+                    }
+
+                    Directory.CreateDirectory($"{patchPath}\\{manifest.name}");
+                    archive.ExtractToDirectory($"{patchPath}\\{manifest.name}");
                     archive.Dispose();
-                    CreateUI(manifest);
-                    File.Delete(file);
+                    if(!exists)
+                        CreateUI(manifest);
                     LoadFiles(manifest);
                 }
                 else
                 {
+                    archive.Dispose();
                     MessageBox.Show("Manifest Version Not Supported");
                 }
             }
         }
         public void LoadInstalled()
         {
-            if (Directory.Exists($"{patchPath}\\Installed"))
+            if (!Directory.Exists(patchPath))
+                Directory.CreateDirectory(patchPath);
+
+            string[] plugins = Directory.GetDirectories($"{patchPath}");
+            foreach (string plugin in plugins)
             {
-                string[] plugins = Directory.GetDirectories($"{patchPath}\\Installed");
-                foreach (string plugin in plugins)
-                {
-                    string json = File.ReadAllText($"{plugin}\\manifest.json");
-                    WMManifest manifest = JsonConvert.DeserializeObject<WMManifest>(json);
-                    CreateUI(manifest);
-                }
+                string json = File.ReadAllText($"{plugin}\\manifest.json");
+                WMManifest manifest = JsonConvert.DeserializeObject<WMManifest>(json);
+                CreateUI(manifest);
             }
         }
         private void DeleteDirectory(string target_dir)
@@ -139,7 +143,7 @@ namespace WinMin.Functions
             BitmapImage bitmap = new BitmapImage();
             bitmap.BeginInit();
             bitmap.CacheOption = BitmapCacheOption.OnLoad;
-            bitmap.UriSource = new Uri($"{patchPath}\\Installed\\{manifest.name}\\{manifest.cover}", UriKind.RelativeOrAbsolute);
+            bitmap.UriSource = new Uri($"{patchPath}\\{manifest.name}\\{manifest.cover}", UriKind.RelativeOrAbsolute);
             bitmap.EndInit();
             Image image = new Image
             {
@@ -172,7 +176,7 @@ namespace WinMin.Functions
                 if(grid.Name.Equals(name))
                 {
                     window.WMInstalled.Items.Remove(grid);
-                    DeleteDirectory($"{patchPath}\\Installed\\{name}");
+                    DeleteDirectory($"{patchPath}\\{name}");
                     return;
                 }
             }
@@ -188,7 +192,7 @@ namespace WinMin.Functions
                 {
                     WindowStyle = ProcessWindowStyle.Hidden,
                     FileName = "cmd.exe",
-                    Arguments = $"/C reg import \"{patchPath}\\Installed\\{manifest.name}\\{keyPath}\""
+                    Arguments = $"/C reg import \"{patchPath}\\{manifest.name}\\{keyPath}\""
                 };
                 process.StartInfo = startInfo;
                 process.Start();
