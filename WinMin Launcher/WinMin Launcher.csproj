@@ -40,6 +40,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -102,6 +103,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\WinMin.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WinMin\WinMin.csproj">
+      <Project>{efa6d9b7-3cde-4322-9611-04d9a48b9a88}</Project>
+      <Name>WinMin</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

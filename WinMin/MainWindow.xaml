@@ -23,6 +23,42 @@
         <Button x:Name="RightClickTask" Content="Enable" Tag="1" HorizontalAlignment="Left" Click="RightClickTask_Click" Margin="43,142,0,0" FontSize="16" VerticalAlignment="Top" Height="60" Width="95" Grid.Row="1"/>
         <Button x:Name="ProgramRun" Content="Run Program" HorizontalAlignment="Left" Click="ProgramRun_Click" Margin="706,35,0,0" FontSize="16" VerticalAlignment="Top" Height="70" Width="105" Grid.Row="1"/>
         <Button x:Name="RegL" Content="Reg File" HorizontalAlignment="Left" Click="RegL_Click" Margin="706,38,0,0" FontSize="16" VerticalAlignment="Top" Height="70" Width="105"/>
+        <Button x:Name="WMPatchB" Content="WM Patcher" HorizontalAlignment="Left" Click="WMPatchB_Click" Margin="576,260,0,0" FontSize="16" VerticalAlignment="Top" Height="69" Width="104" Grid.Row="1"/>
+        <Button x:Name="WMPatchI" HorizontalAlignment="Left" Click="WMPatchI_Click" Margin="576,150,0,0" FontSize="16" VerticalAlignment="Top" Height="69" Width="104" Grid.Row="1">
+            <TextBlock Text="Install a wmpatch file" TextWrapping="WrapWithOverflow" TextAlignment="Center"/>
+        </Button>
+
+        <Image x:Name="PatchesMenu" Visibility="Collapsed" Source="Images/Background.jpg" Stretch="Fill" Margin="0,0,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="MenuButton" Visibility="Collapsed" Content="Main Menu" FontSize="11" Height="35" Width="100" Click="MenuButton_Click" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <Label x:Name="APatches" Visibility="Collapsed" Content="Available Patches" HorizontalAlignment="Left" Margin="165,7,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="IPatches" Visibility="Collapsed" Content="Installed Patches" HorizontalAlignment="Left" Margin="605,5,0,0" VerticalAlignment="Top"/>
+        <ListBox x:Name="WMAvailable" Visibility="Collapsed" HorizontalAlignment="Left" BorderThickness="0" Width="430" Grid.RowSpan="2" Margin="0,38,0,0" ScrollViewer.CanContentScroll="False" HorizontalContentAlignment="Stretch" Background="#FF7F7F7F">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <ContentPresenter/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+
+        <ListBox x:Name="WMInstalled" Visibility="Collapsed" HorizontalAlignment="Right" Width="430" BorderThickness="0" ScrollViewer.CanContentScroll="False" Grid.RowSpan="2" Margin="0,38,0,0" HorizontalContentAlignment="Stretch" Background="#FF7F7F7F">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <ContentPresenter/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
 
         <Image x:Name="UpdateScreen" Source="Images/Background.jpg" Visibility="Collapsed" Margin="0,0,0.333,-13.333" Grid.RowSpan="2" Stretch="Fill"/>
         <Label x:Name="UpdateText1" Visibility="Collapsed" Content="App Update Available" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="280,25,253,0" FontSize="25" Height="44" Width="313" Grid.Row="1"/>

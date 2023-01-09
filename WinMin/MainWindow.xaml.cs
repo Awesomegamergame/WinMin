@@ -8,6 +8,9 @@ using System.Windows.Controls;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Windows.Media.Imaging;
+using Newtonsoft.Json;
+using System.IO.Compression;
 
 namespace WinMin
 {
@@ -28,6 +31,7 @@ namespace WinMin
             InitializeComponent();
             if (Updater.IsOnline) { Updater.Update(); }
             RegistryChanger.CreateJson();
+            #region WinMin wmpatch Extension
             if (File.Exists("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\WinMin.lnk"))
             {
                 string userName = File.ReadAllText($"C:\\Users\\Public\\WinMin\\UserName.txt");
@@ -57,6 +61,7 @@ namespace WinMin
                 process.WaitForExit();
                 SHChangeNotify(0x08000000, 0x0000, IntPtr.Zero, IntPtr.Zero);
             }
+            #endregion
         }
 
         private void RegB_Click(object sender, RoutedEventArgs e)
@@ -121,6 +126,9 @@ namespace WinMin
             RegistryChanger.LoadUserRegistry(Settings, "SettingsPageVisibility", explorerKey);
             RegistryChanger.LoadUserRegistry(RightClick, "NoViewContextMenu", explorerKey);
             RegistryChanger.LoadUserRegistry(RightClickTask, "NoTrayContextMenu", explorerKey);
+            PluginManager pluginManager = new PluginManager();
+            //Loaded Installed Must Be Called First In The PluginManager Class
+            pluginManager.LoadInstalled();
         }
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
@@ -166,6 +174,31 @@ namespace WinMin
                 process.WaitForExit();
                 MessageBox.Show("Registry file loaded");
             }
+        }
+
+        private void MenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            PatchesMenu.Visibility = Visibility.Collapsed;
+            MenuButton.Visibility = Visibility.Collapsed;
+            APatches.Visibility = Visibility.Collapsed;
+            IPatches.Visibility = Visibility.Collapsed;
+            WMAvailable.Visibility = Visibility.Collapsed;
+            WMInstalled.Visibility = Visibility.Collapsed;
+        }
+
+        private void WMPatchB_Click(object sender, RoutedEventArgs e)
+        {
+            PatchesMenu.Visibility = Visibility.Visible;
+            MenuButton.Visibility = Visibility.Visible;
+            APatches.Visibility = Visibility.Visible;
+            IPatches.Visibility = Visibility.Visible;
+            WMAvailable.Visibility = Visibility.Visible;
+            WMInstalled.Visibility = Visibility.Visible;
+        }
+        private void WMPatchI_Click(object sender, RoutedEventArgs e)
+        {
+            PluginManager pluginManager = new PluginManager();
+            pluginManager.WMPatchInstaller();
         }
     }
 }

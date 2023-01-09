@@ -3,12 +3,17 @@ using System.Windows;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Principal;
+using WinMin.Functions;
+using Newtonsoft.Json;
+using System.Management;
+using System.Windows.Threading;
 
 namespace WinMin_Launcher
 {
     public partial class App : Application
     {
-        public string rootPath = @"C:\Users\Public\WinMin";
+        public readonly string rootPath = @"C:\Users\Public\WinMin";
+        public readonly static string patchPath = "C:\\Users\\Public\\WinMin\\Patches";
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             string[] args = Environment.GetCommandLineArgs();
@@ -16,12 +21,13 @@ namespace WinMin_Launcher
             {
                 if (args[1].Equals("startup"))
                 {
-                    //TODO: Make some kind of registry loader and load the hives for the last logged in user
-                    //      then change the listed values in a file then shutdown the app
+                    var interval = new TimeSpan(0, 0, 1);
+                    const string isWin32Process = "TargetInstance isa \"Win32_Process\"";
 
-                    //NOT IMPLEMENTED: Registry loading
-                    //                 Right now well just shutdown the app
-                    Current.Shutdown();
+                    WqlEventQuery stopQuery = new WqlEventQuery("__InstanceDeletionEvent", interval, isWin32Process);
+                    var _stopWatcher = new ManagementEventWatcher(stopQuery);
+                    _stopWatcher.Start();
+                    _stopWatcher.EventArrived += OnStopEventArrived;                    
                 }
                 else if (args[1].Equals("admin"))
                 {
@@ -68,5 +74,45 @@ namespace WinMin_Launcher
                 window.Show();
             }
         }
+        
+        void OnStopEventArrived(object sender, EventArrivedEventArgs e)
+        {
+            var o = (ManagementBaseObject)e.NewEvent["TargetInstance"];
+            string name = (string)o["Name"];
+            if (name.Equals("gpscript.exe"))
+            {
+                foreach (string directory in Directory.GetDirectories($"{patchPath}\\"))
+                {
+                    string json = File.ReadAllText($"{directory}\\manifest.json");
+                    WMManifest manifest = JsonConvert.DeserializeObject<WMManifest>(json);
+                    foreach (string keyPath in manifest.patchFiles)
+                    {
+                        Process process = new Process();
+                        ProcessStartInfo startInfo = new ProcessStartInfo
+                        {
+                            WindowStyle = ProcessWindowStyle.Hidden,
+                            FileName = "cmd.exe",
+                            Arguments = $"/C reg import \"{patchPath}\\{manifest.name}\\{keyPath}\""
+                        };
+                        process.StartInfo = startInfo;
+                        process.Start();
+                        process.WaitForExit();
+                    }
+                }
+                Dispatcher.Invoke(() =>
+                {
+                    Current.Shutdown();
+                });
+            }
+            if (name.Equals("LogonUI.exe"))
+            {
+                //We shutdown just incase gpscript doesnt happen
+                Dispatcher.Invoke(() =>
+                {
+                    Current.Shutdown();
+                });
+            }
+        }
+        
     }
 }
