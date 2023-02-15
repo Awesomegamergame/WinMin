@@ -85,19 +85,9 @@ namespace WinMin_Launcher
                 {
                     string json = File.ReadAllText($"{directory}\\manifest.json");
                     WMManifest manifest = JsonConvert.DeserializeObject<WMManifest>(json);
-                    foreach (string keyPath in manifest.patchFiles)
-                    {
-                        Process process = new Process();
-                        ProcessStartInfo startInfo = new ProcessStartInfo
-                        {
-                            WindowStyle = ProcessWindowStyle.Hidden,
-                            FileName = "cmd.exe",
-                            Arguments = $"/C reg import \"{patchPath}\\{manifest.name}\\{keyPath}\""
-                        };
-                        process.StartInfo = startInfo;
-                        process.Start();
-                        process.WaitForExit();
-                    }
+
+                    PluginManager pluginManager = new PluginManager();
+                    pluginManager.LoadFiles(manifest);
                 }
                 Dispatcher.Invoke(() =>
                 {

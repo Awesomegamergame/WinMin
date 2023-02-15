@@ -17,7 +17,8 @@ namespace WinMin.Functions
         public IList<string> patchFiles { get; set; }
         public List<string> supportedVersions = new List<string>
         {
-            "1.0.0"
+            "1.0.0",
+            "1.0.1"
         };
     }
 }

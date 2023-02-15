@@ -14,7 +14,7 @@ using static WinMin.MainWindow;
 
 namespace WinMin.Functions
 {
-    internal class PluginManager
+    public class PluginManager
     {
         public readonly string patchPath = "C:\\Users\\Public\\WinMin\\Patches";
         public void WMPatchInstaller()
@@ -182,21 +182,41 @@ namespace WinMin.Functions
             }
         }
 
-        private void LoadFiles(WMManifest manifest)
+        public void LoadFiles(WMManifest manifest)
         {
-            //Load all of the keys from the wmpatch file into the registry
-            foreach (string keyPath in manifest.patchFiles)
+            //Load all of the files from the wmpatch file into the registry
+            foreach (string patchFile in manifest.patchFiles)
             {
-                Process process = new Process();
-                ProcessStartInfo startInfo = new ProcessStartInfo
+                int lastIndex = patchFile.LastIndexOf('.');
+                string extension = patchFile.Substring(lastIndex + 1);
+
+                switch (extension)
                 {
-                    WindowStyle = ProcessWindowStyle.Hidden,
-                    FileName = "cmd.exe",
-                    Arguments = $"/C reg import \"{patchPath}\\{manifest.name}\\{keyPath}\""
-                };
-                process.StartInfo = startInfo;
-                process.Start();
-                process.WaitForExit();
+                    case "exe":
+                        Process process1 = new Process();
+                        ProcessStartInfo startInfo1 = new ProcessStartInfo
+                        {
+                            WindowStyle = ProcessWindowStyle.Hidden,
+                            FileName = $"{patchPath}\\{manifest.name}\\{patchFile}",
+                        };
+                        process1.StartInfo = startInfo1;
+                        process1.Start();
+                        break;
+                    case "reg":
+                        Process process = new Process();
+                        ProcessStartInfo startInfo = new ProcessStartInfo
+                        {
+                            WindowStyle = ProcessWindowStyle.Hidden,
+                            FileName = "cmd.exe",
+                            Arguments = $"/C reg import \"{patchPath}\\{manifest.name}\\{patchFile}\""
+                        };
+                        process.StartInfo = startInfo;
+                        process.Start();
+                        process.WaitForExit();
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }
