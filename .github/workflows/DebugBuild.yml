@@ -50,7 +50,7 @@ jobs:
       run: dism /unmount-image /mountdir:./setup/Mount /commit
       
     - name: Zip Bootable WinMin
-      uses: vimtor/action-zip@v1
+      uses: vimtor/action-zip@v1.1
       with:
         files: ./setup/WinMin
         dest: ./setup/WinMin.zip
