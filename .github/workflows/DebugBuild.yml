@@ -1,9 +1,9 @@
 name: Bleeding Edge Build
 on:
   push:
-    branches: [ dev ]
+    branches: [ dev, master ]
   pull_request:
-    branches: [ dev ]
+    branches: [ dev, master ]
 jobs:
   build:
     runs-on: windows-2019
